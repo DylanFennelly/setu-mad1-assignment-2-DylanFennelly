@@ -1,4 +1,4 @@
-package com.example.characterapp.ui
+package com.example.characterapp.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -34,10 +34,10 @@ object HomeDestination: NavigationDestination {
 }
 
 @Composable
-fun CharacterListScreen(
+fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
-    characterViewModel: CharacterListViewModel = viewModel(factory = CharacterListViewModel.Factory)
+    characterViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val todos = characterViewModel.todos;
 
@@ -87,7 +87,7 @@ fun CharacterInput(onAddTodo: (String) -> Unit) {
             value = task,
             onValueChange = { task = it },
             modifier = Modifier.weight(1f),
-            label = { Text("Enter task") }
+            label = { Text("Enter character") }
         )
         Spacer(modifier = Modifier.width(8.dp))
         Button(onClick = { onAddTodo(task) }) {

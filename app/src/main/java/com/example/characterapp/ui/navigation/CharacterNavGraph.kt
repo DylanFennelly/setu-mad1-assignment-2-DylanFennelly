@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.characterapp.ui.CharacterListScreen
-import com.example.characterapp.ui.HomeDestination
+import com.example.characterapp.ui.home.HomeScreen
+import com.example.characterapp.ui.home.HomeDestination
 
 @Composable
 fun CharacterNavHost(
@@ -19,7 +19,7 @@ fun CharacterNavHost(
         modifier= modifier
     ){
         composable(route =  HomeDestination.route){
-            CharacterListScreen(
+            HomeScreen(
                 navigateToItemEntry = {},
                 navigateToItemUpdate = {}
             )
