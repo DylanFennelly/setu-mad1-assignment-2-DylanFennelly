@@ -34,7 +34,11 @@ object HomeDestination: NavigationDestination {
 }
 
 @Composable
-fun CharacterListScreen(characterViewModel: CharacterListViewModel = viewModel(factory = CharacterListViewModel.Factory)) {
+fun CharacterListScreen(
+    navigateToItemEntry: () -> Unit,
+    navigateToItemUpdate: (Int) -> Unit,
+    characterViewModel: CharacterListViewModel = viewModel(factory = CharacterListViewModel.Factory)
+) {
     val todos = characterViewModel.todos;
 
     Column(
