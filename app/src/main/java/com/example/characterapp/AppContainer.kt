@@ -1,14 +1,14 @@
 package com.example.characterapp
 
-import com.example.characterapp.data.InMemoryTodoRepository
-import com.example.characterapp.data.TodoRepository
+import com.example.characterapp.data.InMemoryCharacterRepository
+import com.example.characterapp.data.CharacterRepository
 
 interface AppContainer {
-    val todoRepository: TodoRepository
+    val characterRepository: CharacterRepository
 }
 
 class DefaultAppContainer: AppContainer {
-    override val todoRepository: TodoRepository by lazy {
-        InMemoryTodoRepository()
+    override val characterRepository: CharacterRepository by lazy {
+        InMemoryCharacterRepository()
     }
 }
