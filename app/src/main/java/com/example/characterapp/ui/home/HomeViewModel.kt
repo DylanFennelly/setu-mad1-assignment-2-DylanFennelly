@@ -1,4 +1,4 @@
-package com.example.characterapp.ui
+package com.example.characterapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import com.example.characterapp.data.CharacterModel
@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.characterapp.CharacterApplication
 
-class CharacterListViewModel(private val repository: CharacterRepository) : ViewModel() {
+class HomeViewModel(private val repository: CharacterRepository) : ViewModel() {
     val todos = mutableStateOf<List<CharacterModel>>(emptyList())
 
     init {
@@ -36,8 +36,8 @@ class CharacterListViewModel(private val repository: CharacterRepository) : View
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CharacterApplication)
-                val todoRepository = application.container.characterRepository
-                CharacterListViewModel(repository = todoRepository)
+                val characterRepository = application.container.characterRepository
+                HomeViewModel(repository = characterRepository)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.characterapp.ui
+package com.example.characterapp.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,11 +23,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
+import com.example.characterapp.ui.navigation.NavigationDestination
 
+object HomeDestination: NavigationDestination {
+    override val route = "home"
+    override val titleRes = R.string.app_name
+
+}
 
 @Composable
-fun CharacterListScreen(characterViewModel: CharacterListViewModel = viewModel(factory = CharacterListViewModel.Factory)) {
+fun HomeScreen(
+    navigateToItemEntry: () -> Unit,
+    navigateToItemUpdate: (Int) -> Unit,
+    characterViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+) {
     val todos = characterViewModel.todos;
 
     Column(
@@ -76,7 +87,7 @@ fun CharacterInput(onAddTodo: (String) -> Unit) {
             value = task,
             onValueChange = { task = it },
             modifier = Modifier.weight(1f),
-            label = { Text("Enter task") }
+            label = { Text("Enter character") }
         )
         Spacer(modifier = Modifier.width(8.dp))
         Button(onClick = { onAddTodo(task) }) {
