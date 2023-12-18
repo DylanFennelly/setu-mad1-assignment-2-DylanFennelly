@@ -23,8 +23,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
+import com.example.characterapp.ui.navigation.NavigationDestination
 
+object HomeDestination: NavigationDestination {
+    override val route = "home"
+    override val titleRes = R.string.app_name
+
+}
 
 @Composable
 fun CharacterListScreen(characterViewModel: CharacterListViewModel = viewModel(factory = CharacterListViewModel.Factory)) {
