@@ -1,4 +1,4 @@
-package com.example.todocompose.ui
+package com.example.characterapp.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,34 +23,34 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.todocompose.data.TodoItem
+import com.example.characterapp.data.CharacterModel
 
 
 @Composable
-fun TodoScreen(todoViewModel: TodoViewModel = viewModel(factory = TodoViewModel.Factory)) {
-    val todos = todoViewModel.todos;
+fun CharacterListScreen(characterViewModel: CharacterListViewModel = viewModel(factory = CharacterListViewModel.Factory)) {
+    val todos = characterViewModel.todos;
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        TodoList(todos = todos.value, onTodoClick = todoViewModel::toggleTodoStatus)
-        TodoInput(onAddTodo = todoViewModel::addTodo)
+        CharacterList(todos = todos.value, onTodoClick = characterViewModel::toggleTodoStatus)
+        CharacterInput(onAddTodo = characterViewModel::addCharacter)
     }
 }
 
 @Composable
-fun TodoList(todos: List<TodoItem>, onTodoClick: (TodoItem) -> Unit) {
+fun CharacterList(todos: List<CharacterModel>, onTodoClick: (CharacterModel) -> Unit) {
     LazyColumn {
         items(todos) { todo ->
-            TodoItemRow(todo = todo, onTodoClick = { onTodoClick(todo) })
+            CharacterItemRow(todo = todo, onTodoClick = { onTodoClick(todo) })
         }
     }
 }
 
 @Composable
-fun TodoItemRow(todo: TodoItem, onTodoClick: () -> Unit) {
+fun CharacterItemRow(todo: CharacterModel, onTodoClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,7 +64,7 @@ fun TodoItemRow(todo: TodoItem, onTodoClick: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoInput(onAddTodo: (String) -> Unit) {
+fun CharacterInput(onAddTodo: (String) -> Unit) {
     var task by remember { mutableStateOf("") }
 
     Row(

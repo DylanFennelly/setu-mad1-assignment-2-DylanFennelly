@@ -1,4 +1,4 @@
-package com.example.todocompose
+package com.example.characterapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

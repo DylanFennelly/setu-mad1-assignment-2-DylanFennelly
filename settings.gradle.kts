@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ToDoCompose"
+rootProject.name = "CharacterApp"
 include(":app")
  
