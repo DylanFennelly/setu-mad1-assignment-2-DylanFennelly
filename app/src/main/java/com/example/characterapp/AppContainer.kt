@@ -1,7 +1,7 @@
-package com.example.todocompose
+package com.example.characterapp
 
-import com.example.todocompose.data.InMemoryTodoRepository
-import com.example.todocompose.data.TodoRepository
+import com.example.characterapp.data.InMemoryTodoRepository
+import com.example.characterapp.data.TodoRepository
 
 interface AppContainer {
     val todoRepository: TodoRepository

@@ -1,4 +1,4 @@
-package com.example.todocompose.data
+package com.example.characterapp.data
 
 class InMemoryTodoRepository : TodoRepository {
     private var todoList = mutableListOf<TodoItem>()

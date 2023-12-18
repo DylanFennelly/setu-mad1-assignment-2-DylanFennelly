@@ -1,4 +1,4 @@
-package com.example.todocompose
+package com.example.characterapp
 
 import android.app.Application
 

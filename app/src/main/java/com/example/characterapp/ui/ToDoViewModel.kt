@@ -1,15 +1,13 @@
-package com.example.todocompose.ui
+package com.example.characterapp.ui
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
-import com.example.todocompose.data.TodoItem
-import com.example.todocompose.data.TodoRepository
-import androidx.compose.runtime.State
+import com.example.characterapp.data.TodoItem
+import com.example.characterapp.data.TodoRepository
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.todocompose.ToDoApplication
+import com.example.characterapp.ToDoApplication
 
 class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
     val todos = mutableStateOf<List<TodoItem>>(emptyList())

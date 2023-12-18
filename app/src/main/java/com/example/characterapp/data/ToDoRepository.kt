@@ -1,4 +1,4 @@
-package com.example.todocompose.data
+package com.example.characterapp.data
 
 interface TodoRepository {
     fun getTodos(): List<TodoItem>
