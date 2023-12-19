@@ -18,7 +18,7 @@ class HomeViewModel(private val repository: CharacterRepository) : ViewModel() {
 
     fun addCharacter(task: String) {
         val newTodo = CharacterModel(id = (characters.value.size + 1).toLong())     //other values
-        repository.addTodo(newTodo)
+        repository.addCharacter(newTodo)
         refreshCharacters()
     }
 
