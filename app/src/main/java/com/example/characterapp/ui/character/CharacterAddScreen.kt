@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
@@ -71,7 +72,7 @@ fun ItemEntryBody(
 ){
   Column (
       verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
-      modifier = Modifier
+      modifier = Modifier.padding(top = 76.dp, start = 16.dp, end = 16.dp),
   ){
       ItemInputForm(
           characterDetails = characterUiState.characterDetails,
@@ -91,7 +92,7 @@ fun ItemInputForm(
 ){
     Column(
         modifier = modifier,
-
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ){
         OutlinedTextField(
             value = characterDetails.name,
@@ -101,5 +102,6 @@ fun ItemInputForm(
             enabled = enabled,
             singleLine = true
         )
+
     }
 }
