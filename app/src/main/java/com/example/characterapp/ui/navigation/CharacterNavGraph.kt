@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.characterapp.ui.character.CharacterAddDestination
+import com.example.characterapp.ui.character.CharacterAddScreen
 import com.example.characterapp.ui.home.HomeScreen
 import com.example.characterapp.ui.home.HomeDestination
 
@@ -20,9 +22,15 @@ fun CharacterNavHost(
     ){
         composable(route =  HomeDestination.route){
             HomeScreen(
-                navigateToCreateCharacter = {},
+                navigateToCreateCharacter = {navController.navigate(CharacterAddDestination.route)},
                 navigateToItemUpdate = {}
             )
+        }
+
+        composable(route = CharacterAddDestination.route){
+            CharacterAddScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() })
         }
     }
 }

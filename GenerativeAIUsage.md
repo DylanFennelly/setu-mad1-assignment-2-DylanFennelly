@@ -4,7 +4,7 @@ Generative AI was used to assist with the development of this project. The follo
 
 _____
 
-## Usage 1.
+## Generative AI Usage 1.
 
 #### Usage Overview:
 In this instance, ChatGPT was used to solve an issue with the TopAppBar overlapping the "No characters created" text.
@@ -193,4 +193,66 @@ fun HomeBody(
 In this example, I added a padding modifier to the Column inside the HomeBody composable. You can adjust the top padding value to ensure that the content is positioned below the TopAppBar.
 
 I appreciate your understanding, and I hope this resolves the issue you were facing.
+```
+
+## Generative AI Usage 2.
+
+#### Usage Overview:
+In this instance, ChatGPT was used to change the colour of a MaterialUI Icon.
+
+#### Chat log:
+```
+Me:
+The TopAppBar has a back arrow that allows for backwards navigation through the NavController stack. This back arrow is an Icon Button that uses the MaterialUI Icons for the back arrow. Is there any way to change the color of this icon?
+
+"CenterAlignedTopAppBar(
+        title = { Text(title) },
+        modifier = modifier,
+        scrollBehavior = scrollBehavior,
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back_button)
+                    )
+                }
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            //https://developer.android.com/jetpack/compose/components/app-bars
+            containerColor = Color(android.graphics.Color.parseColor(stringResource(R.color.dnd_red))),   //https://developermemos.com/posts/using-hex-colors-compose
+            titleContentColor = Color.White
+        )"
+
+
+ChatGPT:
+Certainly! To change the color of the back arrow icon in the TopAppBar, you can apply the desired tint to the Icon using the tint parameter. Here's an example of how you can modify your IconButton:
+
+kotlin
+
+CenterAlignedTopAppBar(
+    title = { Text(title) },
+    modifier = modifier,
+    scrollBehavior = scrollBehavior,
+    navigationIcon = {
+        if (canNavigateBack) {
+            IconButton(onClick = navigateUp) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.back_button),
+                    tint = Color.White // Set the desired color here
+                )
+            }
+        }
+    },
+    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        containerColor = Color(android.graphics.Color.parseColor(stringResource(R.color.dnd_red))),
+        titleContentColor = Color.White
+    )
+)
+
+In the provided example, I set the tint parameter of the Icon to Color.White. You can replace it with any color you prefer. Additionally, you can use a color resource instead of Color.White if you have defined colors in your resources.
+
+Make sure to adjust the color value in the tint parameter to match your desired color for the back arrow icon.
 ```

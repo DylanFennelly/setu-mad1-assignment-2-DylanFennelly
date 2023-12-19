@@ -43,7 +43,7 @@ import com.example.characterapp.ui.navigation.NavigationDestination
 
 object HomeDestination: NavigationDestination {
     override val route = "home"
-    override val titleRes = R.string.app_name
+    override val titleRes = R.string.home_title
 
 }
 
@@ -62,7 +62,7 @@ fun HomeScreen(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
              CharacterTopAppBar(
-                 title = stringResource(R.string.home_title),
+                 title = stringResource(HomeDestination.titleRes),
                  canNavigateBack = false,
                  scrollBehavior = scrollBehavior
              )
@@ -96,7 +96,7 @@ fun HomeBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 76.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 76.dp, start = 16.dp, end = 16.dp),  //Generative AI Usage 1.
         horizontalAlignment = Alignment.CenterHorizontally      //https://stackoverflow.com/questions/59713224/jetpack-compose-column-gravity-center
     ) {
         if (characterList.isEmpty()) {
