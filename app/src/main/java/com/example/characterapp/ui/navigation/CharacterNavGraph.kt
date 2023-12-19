@@ -20,7 +20,7 @@ fun CharacterNavHost(
     ){
         composable(route =  HomeDestination.route){
             HomeScreen(
-                navigateToItemEntry = {},
+                navigateToCreateCharacter = {},
                 navigateToItemUpdate = {}
             )
         }

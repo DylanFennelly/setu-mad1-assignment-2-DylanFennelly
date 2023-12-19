@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CharacterApp</string>
+    <string name="item_entry_title">Add Character</string>
 </resources>
