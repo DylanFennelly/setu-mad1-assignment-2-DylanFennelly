@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.characterapp.CharacterApplication
+import com.example.characterapp.ui.character.CharacterAddViewModel
 
 class HomeViewModel(private val repository: CharacterRepository) : ViewModel() {
     val characters = mutableStateOf<List<CharacterModel>>(emptyList())

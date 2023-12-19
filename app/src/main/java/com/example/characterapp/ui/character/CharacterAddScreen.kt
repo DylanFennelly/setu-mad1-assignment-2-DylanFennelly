@@ -1,14 +1,26 @@
 package com.example.characterapp.ui.character
 
 import android.annotation.SuppressLint
+import androidx.annotation.DimenRes
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.ui.home.HomeViewModel
 import com.example.characterapp.ui.navigation.NavigationDestination
 
 object CharacterAddDestination: NavigationDestination {
@@ -23,7 +35,7 @@ fun CharacterAddScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    //characterViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+    characterViewModel: CharacterAddViewModel = viewModel(factory = HomeViewModel.Factory)
 ){
     val coroutineScope = rememberCoroutineScope()
 
@@ -36,13 +48,57 @@ fun CharacterAddScreen(
             )
         }
     )
-    {
+    { innerPadding ->
+        ItemEntryBody(
+            characterUiState = characterViewModel.characterUiState,
+            onCharacterValueChange = characterViewModel::updateUiState,
+            onSaveClick = { /*TODO*/ },
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
+        )
     }
 }
 
 @Composable
-fun ItemInputForm(
-
+fun ItemEntryBody(
+    characterUiState: CharacterUiState,
+    onCharacterValueChange: (CharacterDetails) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
 ){
+  Column (
+      verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
+      modifier = Modifier
+  ){
+      ItemInputForm(
+          characterDetails = characterUiState.characterDetails,
+          onValueChange =  onCharacterValueChange,
+          modifier = Modifier.fillMaxWidth()
+      )
+  }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ItemInputForm(
+    characterDetails: CharacterDetails,
+    modifier: Modifier = Modifier,
+    onValueChange: (CharacterDetails) -> Unit = {},
+    enabled: Boolean = true
+){
+    Column(
+        modifier = modifier,
+
+    ){
+        OutlinedTextField(
+            value = characterDetails.name,
+            onValueChange = { onValueChange(characterDetails.copy(name = it)) },
+            label = { Text(stringResource(R.string.chara_name_label)) },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+    }
 }
