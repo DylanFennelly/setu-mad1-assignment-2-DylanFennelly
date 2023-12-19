@@ -10,26 +10,26 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.characterapp.CharacterApplication
 
 class HomeViewModel(private val repository: CharacterRepository) : ViewModel() {
-    val todos = mutableStateOf<List<CharacterModel>>(emptyList())
+    val characters = mutableStateOf<List<CharacterModel>>(emptyList())
 
     init {
         refreshCharacters()
     }
 
     fun addCharacter(task: String) {
-        val newTodo = CharacterModel(id = todos.value.size + 1, task = task)
+        val newTodo = CharacterModel(id = (characters.value.size + 1).toLong())     //other values
         repository.addTodo(newTodo)
         refreshCharacters()
     }
 
     fun toggleTodoStatus(todo: CharacterModel) {
-        val updatedTodo = todo.copy(isCompleted = !todo.isCompleted)
-        repository.updateTodo(updatedTodo)
+//        val updatedTodo = todo.copy(isCompleted = !todo.isCompleted)
+//        repository.updateTodo(updatedTodo)
         refreshCharacters()
     }
 
     private fun refreshCharacters() {
-        todos.value = repository.getTodos()
+        characters.value = repository.getTodos()
     }
 
     companion object {

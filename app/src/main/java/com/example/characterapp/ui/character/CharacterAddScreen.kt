@@ -39,3 +39,10 @@ fun CharacterAddScreen(
     {
     }
 }
+
+@Composable
+fun ItemInputForm(
+
+){
+
+}

@@ -2,7 +2,6 @@ package com.example.characterapp.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -80,7 +79,7 @@ fun HomeScreen(
         },
     ) { innerPadding ->
         HomeBody(
-            characterList = characterViewModel.todos.value,
+            characterList = characterViewModel.characters.value,
             onItemClick = navigateToItemUpdate,
             modifier = Modifier
                 .padding(innerPadding)
@@ -106,30 +105,30 @@ fun HomeBody(
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
-            CharacterList(todos = characterList, onTodoClick = { })
+            CharacterList(characters = characterList, onTodoClick = { })
         }
     }
 }
 
 @Composable
-fun CharacterList(todos: List<CharacterModel>, onTodoClick: (CharacterModel) -> Unit) {
+fun CharacterList(characters: List<CharacterModel>, onTodoClick: (CharacterModel) -> Unit) {
     LazyColumn {
-        items(todos) { todo ->
-            CharacterItemRow(todo = todo, onTodoClick = { onTodoClick(todo) })
+        items(characters) { character ->
+            CharacterItemRow(character = character, onTodoClick = { onTodoClick(character) })
         }
     }
 }
 
 @Composable
-fun CharacterItemRow(todo: CharacterModel, onTodoClick: () -> Unit) {
+fun CharacterItemRow(character: CharacterModel, onTodoClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { onTodoClick() }
     ) {
-        Text(text = todo.task, modifier = Modifier.weight(1f))
-        Checkbox(checked = todo.isCompleted, onCheckedChange = null)
+        Text(text = character.name, modifier = Modifier.weight(1f))
+        Checkbox(checked = false , onCheckedChange = null)
     }
 }
 
