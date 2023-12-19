@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CharacterApp</string>
     <string name="item_entry_title">Add Character</string>
+    <string name="no_character_desc">No characters have been created.\nTap + to create a new character.</string>
 </resources>

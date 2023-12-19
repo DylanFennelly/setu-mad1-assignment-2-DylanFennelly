@@ -2,6 +2,7 @@ package com.example.characterapp.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,8 +29,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
@@ -48,8 +52,6 @@ fun HomeScreen(
     navigateToItemUpdate: (Int) -> Unit,
     characterViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
-    val todos = characterViewModel.todos;
-
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -62,17 +64,35 @@ fun HomeScreen(
             }
         }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            CharacterList(todos = todos.value, onTodoClick = characterViewModel::toggleTodoStatus)
-            CharacterInput(onAddTodo = characterViewModel::addCharacter)
-        }
+        HomeBody(
+            characterList = characterViewModel.todos.value,
+            onItemClick = navigateToItemUpdate
+        )
     }
 
 
+}
+
+@Composable
+fun HomeBody(
+    characterList: List<CharacterModel>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally      //https://stackoverflow.com/questions/59713224/jetpack-compose-column-gravity-center
+    ) {
+        if (characterList.isEmpty()) {
+            Text(
+                text = stringResource(R.string.no_character_desc),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge
+            )
+        } else {
+            CharacterList(todos = characterList, onTodoClick = { })
+        }
+    }
 }
 
 @Composable
