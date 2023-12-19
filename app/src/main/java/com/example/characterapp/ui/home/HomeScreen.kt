@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.getValue
@@ -31,9 +32,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
 import com.example.characterapp.ui.navigation.NavigationDestination
@@ -50,9 +53,21 @@ object HomeDestination: NavigationDestination {
 fun HomeScreen(
     navigateToCreateCharacter: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
+    modifier: Modifier = Modifier,
     characterViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+             CharacterTopAppBar(
+                 title = stringResource(R.string.home_title),
+                 canNavigateBack = false,
+                 scrollBehavior = scrollBehavior
+             )
+        },
+
         floatingActionButton = {
             FloatingActionButton(
                 onClick = navigateToCreateCharacter
@@ -62,15 +77,16 @@ fun HomeScreen(
                     contentDescription = stringResource(R.string.item_entry_title)
                 )
             }
-        }
-    ) {
+        },
+    ) { innerPadding ->
         HomeBody(
             characterList = characterViewModel.todos.value,
-            onItemClick = navigateToItemUpdate
+            onItemClick = navigateToItemUpdate,
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         )
     }
-
-
 }
 
 @Composable
@@ -80,7 +96,7 @@ fun HomeBody(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(top = 76.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally      //https://stackoverflow.com/questions/59713224/jetpack-compose-column-gravity-center
     ) {
         if (characterList.isEmpty()) {
