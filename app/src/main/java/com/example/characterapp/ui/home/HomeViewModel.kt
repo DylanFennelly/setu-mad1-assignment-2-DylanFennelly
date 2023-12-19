@@ -32,14 +32,4 @@ class HomeViewModel(private val repository: CharacterRepository) : ViewModel() {
     private fun refreshCharacters() {
         characters.value = repository.getTodos()
     }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CharacterApplication)
-                val characterRepository = application.container.characterRepository
-                HomeViewModel(repository = characterRepository)
-            }
-        }
-    }
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.home.HomeViewModel
 import com.example.characterapp.ui.navigation.NavigationDestination
 
@@ -35,7 +36,7 @@ fun CharacterAddScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
-    characterViewModel: CharacterAddViewModel = viewModel(factory = HomeViewModel.Factory)
+    characterViewModel: CharacterAddViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ){
     val coroutineScope = rememberCoroutineScope()
 

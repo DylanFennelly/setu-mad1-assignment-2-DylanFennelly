@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
+import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
 
 object HomeDestination: NavigationDestination {
@@ -53,7 +54,7 @@ fun HomeScreen(
     navigateToCreateCharacter: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    characterViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+    characterViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
