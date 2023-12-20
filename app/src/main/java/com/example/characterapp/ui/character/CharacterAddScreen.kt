@@ -3,8 +3,10 @@ package com.example.characterapp.ui.character
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -155,159 +157,179 @@ fun CharacterInputForm(
     var bgExpanded by remember { mutableStateOf(false)}
     var classExpanded by remember { mutableStateOf(false)}
 
-    Column(
+    LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ){
-        //Name
-        OutlinedTextField(      //https://alexzh.com/jetpack-compose-dropdownmenu/
-            value = characterDetails.name,
-            onValueChange = { onValueChange(characterDetails.copy(name = it)) },
-            label = { Text(stringResource(R.string.chara_name_label)) },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true
-        )
+        item {
+            //Name
+            OutlinedTextField(      //https://alexzh.com/jetpack-compose-dropdownmenu/
+                value = characterDetails.name,
+                onValueChange = { onValueChange(characterDetails.copy(name = it)) },
+                label = { Text(stringResource(R.string.chara_name_label)) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enabled,
+                singleLine = true
+            )
+        }
+
 
         //Race
         //https://alexzh.com/jetpack-compose-dropdownmenu/
-        ExposedDropdownMenuBox(
-            expanded = raceExpanded,
-            onExpandedChange = {
-                raceExpanded = !raceExpanded // flip state of menu open/closed
-            }
-        ) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .menuAnchor() // defines where the dropdown menu should appear - https://semicolonspace.com/jetpack-compose-dropdown-menu-material3/
-                    .fillMaxWidth(),
-                readOnly = true,
-                value = characterDetails.race,
-                onValueChange = {},
-                label = { Text(stringResource(R.string.chara_race_dropdown_label)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = raceExpanded) },
-            )
-
-            ExposedDropdownMenu(
+        item {
+            ExposedDropdownMenuBox(
                 expanded = raceExpanded,
-                onDismissRequest = {
-                    raceExpanded = false        //when menu is dismissed, close menu
-                },
+                onExpandedChange = {
+                    raceExpanded = !raceExpanded // flip state of menu open/closed
+                }
             ) {
-                // menu items
-                raceOptions.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            characterDetails.race = option
-                            raceExpanded = false
-                        }
-                    )
+                OutlinedTextField(
+                    modifier = Modifier
+                        .menuAnchor() // defines where the dropdown menu should appear - https://semicolonspace.com/jetpack-compose-dropdown-menu-material3/
+                        .fillMaxWidth(),
+                    readOnly = true,
+                    value = characterDetails.race,
+                    onValueChange = {},
+                    label = { Text(stringResource(R.string.chara_race_dropdown_label)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = raceExpanded) },
+                )
+
+                ExposedDropdownMenu(
+                    expanded = raceExpanded,
+                    onDismissRequest = {
+                        raceExpanded = false        //when menu is dismissed, close menu
+                    },
+                ) {
+                    // menu items
+                    raceOptions.forEach { option ->
+                        DropdownMenuItem(
+                            text = { Text(option) },
+                            onClick = {
+                                characterDetails.race = option
+                                raceExpanded = false
+                            }
+                        )
+                    }
                 }
             }
         }
 
         //background
-        ExposedDropdownMenuBox(
-            expanded = bgExpanded,
-            onExpandedChange = {
-                bgExpanded = !bgExpanded
-            }
-        ) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth(),
-                readOnly = true,
-                value = characterDetails.background,
-                onValueChange = {},
-                label = { Text(stringResource(R.string.chara_bg_dropdown_label)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = bgExpanded) },
-            )
-
-            ExposedDropdownMenu(
+        item {
+            ExposedDropdownMenuBox(
                 expanded = bgExpanded,
-                onDismissRequest = {
-                    bgExpanded = false        //when menu is dismissed, close menu
-                },
+                onExpandedChange = {
+                    bgExpanded = !bgExpanded
+                }
             ) {
-                bgOptions.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            characterDetails.background = option
-                            bgExpanded = false
-                        }
-                    )
+                OutlinedTextField(
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth(),
+                    readOnly = true,
+                    value = characterDetails.background,
+                    onValueChange = {},
+                    label = { Text(stringResource(R.string.chara_bg_dropdown_label)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = bgExpanded) },
+                )
+
+                ExposedDropdownMenu(
+                    expanded = bgExpanded,
+                    onDismissRequest = {
+                        bgExpanded = false        //when menu is dismissed, close menu
+                    },
+                ) {
+                    bgOptions.forEach { option ->
+                        DropdownMenuItem(
+                            text = { Text(option) },
+                            onClick = {
+                                characterDetails.background = option
+                                bgExpanded = false
+                            }
+                        )
+                    }
                 }
             }
         }
 
         //class
-        ExposedDropdownMenuBox(
-            expanded = classExpanded,
-            onExpandedChange = {
-                classExpanded = !classExpanded
-            }
-        ) {
-            OutlinedTextField(
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth(),
-                readOnly = true,
-                value = characterDetails.battleClass,
-                onValueChange = {},
-                label = { Text(stringResource(R.string.chara_class_dropdown_label)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = classExpanded) },
-            )
-
-            ExposedDropdownMenu(
+        item {
+            ExposedDropdownMenuBox(
                 expanded = classExpanded,
-                onDismissRequest = {
-                    classExpanded = false        //when menu is dismissed, close menu
-                },
+                onExpandedChange = {
+                    classExpanded = !classExpanded
+                }
             ) {
-                classOptions.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            characterDetails.battleClass = option
-                            classExpanded = false
-                        }
-                    )
+                OutlinedTextField(
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth(),
+                    readOnly = true,
+                    value = characterDetails.battleClass,
+                    onValueChange = {},
+                    label = { Text(stringResource(R.string.chara_class_dropdown_label)) },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = classExpanded) },
+                )
+
+                ExposedDropdownMenu(
+                    expanded = classExpanded,
+                    onDismissRequest = {
+                        classExpanded = false        //when menu is dismissed, close menu
+                    },
+                ) {
+                    classOptions.forEach { option ->
+                        DropdownMenuItem(
+                            text = { Text(option) },
+                            onClick = {
+                                characterDetails.battleClass = option
+                                classExpanded = false
+                            }
+                        )
+                    }
                 }
             }
         }
 
         //Level
-        OutlinedTextField(
-            value = characterDetails.level,
-            onValueChange = { onValueChange(characterDetails.copy(level = it)) },
-            label = { Text(stringResource(R.string.chara_level_label)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true,
-            isError = !validateLevelInput(characterDetails.level),
-            supportingText = {                                                  //https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlinedtextfield-in-jetpack-compose
-                if (!validateLevelInput(characterDetails.level)){
-                    Text(
-                        text = stringResource(R.string.chara_level_error),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }else{
-                    Text(text = stringResource(R.string.chara_level_desc))
+        item {
+            OutlinedTextField(
+                value = characterDetails.level,
+                onValueChange = { onValueChange(characterDetails.copy(level = it)) },
+                label = { Text(stringResource(R.string.chara_level_label)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth(),
+                enabled = enabled,
+                singleLine = true,
+                isError = !validateLevelInput(characterDetails.level),
+                supportingText = {                                                  //https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlinedtextfield-in-jetpack-compose
+                    if (!validateLevelInput(characterDetails.level)) {
+                        Text(
+                            text = stringResource(R.string.chara_level_error),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    } else {
+                        Text(text = stringResource(R.string.chara_level_desc))
+                    }
+                },
+                trailingIcon = {
+                    if (!validateLevelInput(characterDetails.level)) {
+                        Icon(
+                            imageVector = Icons.Filled.Warning,         //for some reason, the Error icon does not exist
+                            contentDescription = "Error",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
-            },
-            trailingIcon = {
-                if (!validateLevelInput(characterDetails.level)){
-                    Icon(
-                        imageVector = Icons.Filled.Warning,         //for some reason, the Error icon does not exist
-                        contentDescription = "Error",
-                        tint = MaterialTheme.colorScheme.error)
-                }
+            )
+        }
+
+        item {
+            Row {
+                Text(text = "Score 1")
+                Text(text = "Score 2")
+                Text(text = "Score 3")
             }
-        )
+        }
 
     }
 }
