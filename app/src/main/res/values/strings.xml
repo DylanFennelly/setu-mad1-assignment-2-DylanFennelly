@@ -1,3 +1,70 @@
 <resources>
     <string name="app_name">CharacterApp</string>
+    <string name="add_character">Create Character</string>
+    <string name="item_entry_title">Add Character</string>
+    <string name="no_character_desc">No characters have been created.\nTap + to create a new character.</string>
+    <string name="back_button">Back</string>
+    <string name="home_title">Characters</string>
+    <string name="chara_name_label">Name</string>
+    <string name="chara_race_dropdown_label">Race</string>
+    <string name="chara_bg_dropdown_label">Background</string>
+    <string name="chara_class_dropdown_label">Class</string>
+    <string name="chara_level_label">Level</string>
+    <string name="chara_level_desc">Select a level between 1 and 20</string>
+    <string name="chara_level_error">Error: Level must be between 1 and 20</string>
+    <string name="ability_scores_title">Ability Scores</string>
+    <string name="ability_scores_desc">Each ability score is between 1–30</string>
+    <string name="ability_mod_label">Modifier</string>
+    <string name="chara_hp_label">Hit Points</string>
+    <string name="chara_hp_na_label">N/A</string>
+    <string name="chara_ac_label">Armour Class</string>
+    <string name="save_button">Create Character</string>
+
+
+    <string name="chara_str_label">Strength</string>
+    <string name="chara_dex_label">Dexterity</string>
+    <string name="chara_con_label">Constitution</string>
+    <string name="chara_int_label">Intelligence</string>
+    <string name="chara_wis_label">Wisdom</string>
+    <string name="chara_cha_label">Charisma</string>
+
+    <string name="race_dragonborn">Dragonborn</string>
+    <string name="race_dwarf">Dwarf</string>
+    <string name="race_elf">Elf</string>
+    <string name="race_gnome">Gnome</string>
+    <string name="race_halfelf">Half-Elf</string>
+    <string name="race_halforc">Half-Orc</string>
+    <string name="race_halfling">Halfling</string>
+    <string name="race_human">Human</string>
+    <string name="race_tiefling">Tiefling</string>
+
+
+    <string name="bg_acolyte">Acolyte</string>
+    <string name="bg_charlatan">Charlatan</string>
+    <string name="bg_criminal">Criminal</string>
+    <string name="bg_entertainer">Entertainer</string>
+    <string name="bg_folk_hero">Folk Hero</string>
+    <string name="bg_guild_artisan">Guild Artisan</string>
+    <string name="bg_hermit">Hermit</string>
+    <string name="bg_noble">Noble</string>
+    <string name="bg_outlander">Outlander</string>
+    <string name="bg_sage">Sage</string>
+    <string name="bg_sailor">Sailor</string>
+    <string name="bg_solider">Soldier</string>
+    <string name="bg_urchin">Urchin</string>
+
+
+    <string name="class_barbarian">Barbarian</string>
+    <string name="class_bard">Bard</string>
+    <string name="class_cleric">Cleric</string>
+    <string name="class_druid">Druid</string>
+    <string name="class_fighter">Fighter</string>
+    <string name="class_monk">Monk</string>
+    <string name="class_paladin">Paladin</string>
+    <string name="class_ranger">Ranger</string>
+    <string name="class_rouge">Rouge</string>
+    <string name="class_sorcerer">Sorcerer</string>
+    <string name="class_warlock">Warlock</string>
+    <string name="class_wizard">Wizard</string>
+
 </resources>
