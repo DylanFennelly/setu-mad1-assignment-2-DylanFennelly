@@ -18,6 +18,7 @@
     <string name="chara_hp_label">Hit Points</string>
     <string name="chara_hp_na_label">N/A</string>
     <string name="chara_ac_label">Armour Class</string>
+    <string name="save_button">Create Character</string>
 
 
     <string name="chara_str_label">Strength</string>

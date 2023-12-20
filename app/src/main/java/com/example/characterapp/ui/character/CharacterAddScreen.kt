@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -139,17 +140,28 @@ fun CharacterEntryBody(
     bgOptions: List<String>,
     classOptions: List<String>,
 ){
-  Column (
+  LazyColumn (
       verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
-      modifier = Modifier.padding(top = 76.dp, start = 16.dp, end = 16.dp),
+      modifier = Modifier.padding(top = 64.dp, start = 16.dp, end = 16.dp),
   ){
-      CharacterInputForm(
-          characterDetails = characterUiState.characterDetails,
-          onValueChange =  onCharacterValueChange,
-          onHPValueChange = onCharacterHPValueChange,
-          modifier = Modifier.fillMaxWidth(),
-          raceOptions = raceOptions, bgOptions = bgOptions, classOptions = classOptions
-      )
+      item {
+          CharacterInputForm(
+              characterDetails = characterUiState.characterDetails,
+              onValueChange = onCharacterValueChange,
+              onHPValueChange = onCharacterHPValueChange,
+              modifier = Modifier.fillMaxWidth(),
+              raceOptions = raceOptions, bgOptions = bgOptions, classOptions = classOptions
+          )
+      }
+      item {
+          Button(
+              onClick = onSaveClick,
+              enabled = characterUiState.isEntryValid,
+              modifier = Modifier.fillMaxWidth().padding(top=16.dp, bottom = 24.dp).height(50.dp)
+          ) {
+              Text(text = stringResource(R.string.save_button))
+          }
+      }
   }
 }
 
@@ -169,11 +181,10 @@ fun CharacterInputForm(
     var bgExpanded by remember { mutableStateOf(false)}
     var classExpanded by remember { mutableStateOf(false)}
 
-    LazyColumn(
+    Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ){
-        item {
             //Name
             OutlinedTextField(      //https://alexzh.com/jetpack-compose-dropdownmenu/
                 value = characterDetails.name,
@@ -183,12 +194,10 @@ fun CharacterInputForm(
                 enabled = enabled,
                 singleLine = true
             )
-        }
 
 
         //Race
         //https://alexzh.com/jetpack-compose-dropdownmenu/
-        item {
             ExposedDropdownMenuBox(
                 expanded = raceExpanded,
                 onExpandedChange = {
@@ -224,10 +233,8 @@ fun CharacterInputForm(
                     }
                 }
             }
-        }
 
         //background
-        item {
             ExposedDropdownMenuBox(
                 expanded = bgExpanded,
                 onExpandedChange = {
@@ -262,10 +269,8 @@ fun CharacterInputForm(
                     }
                 }
             }
-        }
 
         //class
-        item {
             ExposedDropdownMenuBox(
                 expanded = classExpanded,
                 onExpandedChange = {
@@ -300,10 +305,8 @@ fun CharacterInputForm(
                     }
                 }
             }
-        }
 
         //Level
-        item {
             OutlinedTextField(
                 value = characterDetails.level,
                 onValueChange = { onHPValueChange(characterDetails.copy(level = it)) },
@@ -333,8 +336,7 @@ fun CharacterInputForm(
                     }
                 }
             )
-        }
-        item {
+
             Text(
                 text = stringResource(R.string.ability_scores_title),
                 textAlign = TextAlign.Center,
@@ -347,10 +349,9 @@ fun CharacterInputForm(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.fillMaxWidth()
             )
-        }
 
         //Ability scores (STR, DEX, CON)
-        item {
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -461,10 +462,10 @@ fun CharacterInputForm(
                     )
                 }
             }
-        }
+
 
         //Ability scores (INT, WIS, CHA)
-        item {
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -575,10 +576,9 @@ fun CharacterInputForm(
                     )
                 }
             }
-        }
 
         //HP and AC
-        item{
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -630,7 +630,6 @@ fun CharacterInputForm(
                     )
                 }
             }
-        }
 
     }
 }
