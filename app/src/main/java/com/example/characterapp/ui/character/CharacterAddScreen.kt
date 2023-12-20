@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
@@ -353,19 +355,61 @@ fun CharacterInputForm(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     enabled = enabled,
                     singleLine = true,
-                    isError = !validateLevelInput(characterDetails.str),
+                    isError = !validateAbilityScoreInput(characterDetails.str),
                     trailingIcon = {
-                        if (!validateLevelInput(characterDetails.str)) {
+                        if (!validateAbilityScoreInput(characterDetails.str)) {
                             Icon(
                                 imageVector = Icons.Filled.Warning,
                                 contentDescription = "Error",
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
-                    }
+                    },
+                    modifier = Modifier.
+                        width(105.dp)
                 )
-                Text(text = "Score 2")
-                Text(text = "Score 3")
+                //DEX
+                OutlinedTextField(
+                    value = characterDetails.dex,
+                    onValueChange = { onValueChange(characterDetails.copy(dex = it)) },
+                    label = { Text(stringResource(R.string.chara_dex_label)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    enabled = enabled,
+                    singleLine = true,
+                    isError = !validateAbilityScoreInput(characterDetails.dex),
+                    trailingIcon = {
+                        if (!validateAbilityScoreInput(characterDetails.dex)) {
+                            Icon(
+                                imageVector = Icons.Filled.Warning,
+                                contentDescription = "Error",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    },
+                    modifier = Modifier.
+                    width(105.dp)
+                )
+                //CON
+                OutlinedTextField(
+                    value = characterDetails.con,
+                    onValueChange = { onValueChange(characterDetails.copy(con = it)) },
+                    label = { Text(stringResource(R.string.chara_con_label)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    enabled = enabled,
+                    singleLine = true,
+                    isError = !validateAbilityScoreInput(characterDetails.con),
+                    trailingIcon = {
+                        if (!validateAbilityScoreInput(characterDetails.con)) {
+                            Icon(
+                                imageVector = Icons.Filled.Warning,
+                                contentDescription = "Error",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    },
+                    modifier = Modifier.
+                    width(105.dp)
+                )
             }
         }
 
