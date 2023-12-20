@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.characterapp.data.CharacterModel
 import com.example.characterapp.data.CharacterRepository
+import com.example.characterapp.helpers.calculateHP
 
 
 //ViewModel to validate and insert items in the Room database.
@@ -15,8 +16,17 @@ class CharacterAddViewModel(private val characterRepository: CharacterRepository
     var characterUiState by mutableStateOf(CharacterUiState())
         private set
 
+
+    //TODO: seperate updateUiState method for hp cal -> currently recalculate every time a value is updated (even it it doesnt affect HP)
     fun updateUiState(characterDetails: CharacterDetails){
         characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+    }
+
+
+    //Alternate version of updateUiState that calculates HP -> only calculateHP when relevant values are updated
+    fun updateUiStateAndHP(characterDetails: CharacterDetails){
+        characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+        characterDetails.maxHP = calculateHP(characterDetails.level, characterDetails.battleClass, characterDetails.con).toString()
     }
 
     private fun validateInput(uiState: CharacterDetails = characterUiState.characterDetails): Boolean {

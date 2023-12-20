@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.helpers.calculateHP
 import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
@@ -114,6 +115,7 @@ fun CharacterAddScreen(
         CharacterEntryBody(
             characterUiState = characterViewModel.characterUiState,
             onCharacterValueChange = characterViewModel::updateUiState,
+            onCharacterHPValueChange = characterViewModel::updateUiStateAndHP,
             onSaveClick = { /*TODO*/ },
             modifier = Modifier
                 .padding(innerPadding)
@@ -128,6 +130,7 @@ fun CharacterAddScreen(
 fun CharacterEntryBody(
     characterUiState: CharacterUiState,
     onCharacterValueChange: (CharacterDetails) -> Unit,
+    onCharacterHPValueChange: (CharacterDetails) -> Unit = {},
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
     raceOptions: List<String>,
@@ -141,6 +144,7 @@ fun CharacterEntryBody(
       CharacterInputForm(
           characterDetails = characterUiState.characterDetails,
           onValueChange =  onCharacterValueChange,
+          onHPValueChange = onCharacterHPValueChange,
           modifier = Modifier.fillMaxWidth(),
           raceOptions = raceOptions, bgOptions = bgOptions, classOptions = classOptions
       )
@@ -153,6 +157,7 @@ fun CharacterInputForm(
     characterDetails: CharacterDetails,
     modifier: Modifier = Modifier,
     onValueChange: (CharacterDetails) -> Unit = {},
+    onHPValueChange: (CharacterDetails) -> Unit = {},
     raceOptions: List<String>,
     bgOptions: List<String>,
     classOptions: List<String>,
@@ -210,7 +215,7 @@ fun CharacterInputForm(
                         DropdownMenuItem(
                             text = { Text(option) },
                             onClick = {
-                                characterDetails.race = option
+                                onValueChange(characterDetails.copy(race=option))
                                 raceExpanded = false
                             }
                         )
@@ -248,7 +253,7 @@ fun CharacterInputForm(
                         DropdownMenuItem(
                             text = { Text(option) },
                             onClick = {
-                                characterDetails.background = option
+                                onValueChange(characterDetails.copy(background=option))
                                 bgExpanded = false
                             }
                         )
@@ -286,7 +291,7 @@ fun CharacterInputForm(
                         DropdownMenuItem(
                             text = { Text(option) },
                             onClick = {
-                                characterDetails.battleClass = option
+                                onHPValueChange(characterDetails.copy(battleClass = option))
                                 classExpanded = false
                             }
                         )
@@ -299,7 +304,7 @@ fun CharacterInputForm(
         item {
             OutlinedTextField(
                 value = characterDetails.level,
-                onValueChange = { onValueChange(characterDetails.copy(level = it)) },
+                onValueChange = { onHPValueChange(characterDetails.copy(level = it)) },
                 label = { Text(stringResource(R.string.chara_level_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
@@ -423,7 +428,7 @@ fun CharacterInputForm(
                     //CON
                     OutlinedTextField(
                         value = characterDetails.con,
-                        onValueChange = { onValueChange(characterDetails.copy(con = it)) },
+                        onValueChange = { onHPValueChange(characterDetails.copy(con = it)) },
                         label = { Text(stringResource(R.string.chara_con_label)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         enabled = enabled,
@@ -584,12 +589,21 @@ fun CharacterInputForm(
                         modifier = Modifier.fillMaxWidth(),
                     )
 
-                    Text(
-                        text = characterDetails.maxHP,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    if(validateLevelInput(characterDetails.level) && validateAbilityScoreInput(characterDetails.con) && characterDetails.battleClass != "") {
+                        Text(
+                            text = characterDetails.maxHP.toString(),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }else{
+                        Text(
+                            text = stringResource(R.string.chara_hp_na_label),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
 
                 Column(modifier = Modifier.width(105.dp)) {

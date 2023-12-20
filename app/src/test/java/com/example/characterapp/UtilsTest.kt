@@ -70,6 +70,9 @@ class UtilsTest {
         assertEquals("Incorrect max HP", 3.toShort(), calculateHP("3", "Sorcerer", "1"))         //level 3 sorcerer, 1 con: 6 - 5 + [(4-5) -1 < 1? 1] * 2 = 3   (negative HP per level case - defaults to 1 hp per level)
         assertEquals("Incorrect max HP", 0.toShort(), calculateHP("1", "Invalid", "10"))                        //Level 1 no class, 10 con = 0     (for if calculation is done before class assigned)
         assertEquals("Incorrect max HP", 19.toShort(), calculateHP("20", "Invalid", "10"))                      //Level 20 no class, 10 con = 0 + 1*19 = 19     (if level up would give 0 hp, defaults to 1)
+
+        assertEquals("Incorrect max HP", 6.toShort(), calculateHP("21", "Wizard", "10"))         //level 21 wizard, 10 con: 6 + 0 + (4+0) * 20 = 86 ->! invalid level = 6 +0+0 = 6 (invalid level)
+        assertEquals("Incorrect max HP", 6.toShort(), calculateHP("1", "Wizard", "100"))         //level 3 wizard, 100 con: 6 + 50 + (4+50) * 2 = 164 ->! invalid CON = 6 + 0 + (4+0)*2 = 14 (invalid CON)
     }
 
 }

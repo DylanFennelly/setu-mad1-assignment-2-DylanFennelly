@@ -16,6 +16,7 @@
     <string name="ability_scores_desc">Each ability score is between 1–30</string>
     <string name="ability_mod_label">Modifier</string>
     <string name="chara_hp_label">Hit Points</string>
+    <string name="chara_hp_na_label">N/A</string>
     <string name="charact_ac_label">Armour Class</string>
 
 

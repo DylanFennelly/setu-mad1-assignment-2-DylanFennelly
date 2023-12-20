@@ -54,28 +54,30 @@ fun calculateHP(charLevel : String, charClass : String, conScore : String): Shor
     }
 
     //HP above level 1: (Class HP + con mod) x levels above 1
-    if (charLevel.toInt() >= 2){
-        var hpPerLevel: Int = 0
-        when(charClass){
-            "Barbarian" -> hpPerLevel += (7 + calculateMod(conScore).toInt())
-            "Bard" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
-            "Cleric" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
-            "Druid"  ->hpPerLevel += (5 + calculateMod(conScore).toInt())
-            "Fighter"   ->hpPerLevel += (6 + calculateMod(conScore).toInt())
-            "Monk"  -> hpPerLevel += (5 + calculateMod(conScore).toInt())
-            "Paladin"  -> hpPerLevel += (6 + calculateMod(conScore).toInt())
-            "Ranger"  -> hpPerLevel += (6 + calculateMod(conScore).toInt())
-            "Rouge"  -> hpPerLevel += (5 + calculateMod(conScore).toInt())
-            "Sorcerer" -> hpPerLevel += (4 + calculateMod(conScore).toInt())
-            "Warlock"  -> hpPerLevel += (5 + calculateMod(conScore).toInt())
-            "Wizard"  -> hpPerLevel += (4 + calculateMod(conScore).toInt())
-            else -> hpPerLevel = 1
-        }
+    if (validateLevelInput(charLevel)) {
+        if (charLevel.toIntOrNull()!! >= 2) {
+            var hpPerLevel: Int = 0
+            when (charClass) {
+                "Barbarian" -> hpPerLevel += (7 + calculateMod(conScore).toInt())
+                "Bard" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
+                "Cleric" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
+                "Druid" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
+                "Fighter" -> hpPerLevel += (6 + calculateMod(conScore).toInt())
+                "Monk" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
+                "Paladin" -> hpPerLevel += (6 + calculateMod(conScore).toInt())
+                "Ranger" -> hpPerLevel += (6 + calculateMod(conScore).toInt())
+                "Rouge" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
+                "Sorcerer" -> hpPerLevel += (4 + calculateMod(conScore).toInt())
+                "Warlock" -> hpPerLevel += (5 + calculateMod(conScore).toInt())
+                "Wizard" -> hpPerLevel += (4 + calculateMod(conScore).toInt())
+                else -> hpPerLevel = 1
+            }
 
-        if (hpPerLevel < 1){    //if character would gain no HP/lose hp on level up, guarantee 1 HP gain
-            hpPerLevel = 1
+            if (hpPerLevel < 1) {    //if character would gain no HP/lose hp on level up, guarantee 1 HP gain
+                hpPerLevel = 1
+            }
+            maxHP += hpPerLevel * (charLevel.toInt() - 1) //multiply by levels above 1 (i.e. level 5 character has base HP + hpPerLevel * 4)
         }
-        maxHP += hpPerLevel*(charLevel.toInt() - 1) //multiply by levels above 1 (i.e. level 5 character has base HP + hpPerLevel * 4)
     }
 
     return maxHP.toShort();
