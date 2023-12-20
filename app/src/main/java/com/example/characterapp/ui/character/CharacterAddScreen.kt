@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
@@ -323,8 +324,12 @@ fun CharacterInputForm(
             )
         }
 
+        //Ability scores
         item {
-            Row {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
                 Text(text = "Score 1")
                 Text(text = "Score 2")
                 Text(text = "Score 3")
@@ -332,4 +337,72 @@ fun CharacterInputForm(
         }
 
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CharacterAddScreenPreview(){
+    val raceOptions = listOf(
+        stringResource(R.string.race_dragonborn),
+        stringResource(R.string.race_dwarf),
+        stringResource(R.string.race_elf),
+        stringResource(R.string.race_gnome),
+        stringResource(R.string.race_halfelf),
+        stringResource(R.string.race_halforc),
+        stringResource(R.string.race_halfling),
+        stringResource(R.string.race_human),
+        stringResource(R.string.race_tiefling),
+    )
+    val bgOptions = listOf(
+        stringResource(R.string.bg_acolyte),
+        stringResource(R.string.bg_charlatan),
+        stringResource(R.string.bg_criminal),
+        stringResource(R.string.bg_entertainer),
+        stringResource(R.string.bg_folk_hero),
+        stringResource(R.string.bg_guild_artisan),
+        stringResource(R.string.bg_hermit),
+        stringResource(R.string.bg_noble),
+        stringResource(R.string.bg_outlander),
+        stringResource(R.string.bg_sage),
+        stringResource(R.string.bg_sailor),
+        stringResource(R.string.bg_solider),
+        stringResource(R.string.bg_urchin),
+    )
+    val classOptions = listOf(
+        stringResource(R.string.class_barbarian),
+        stringResource(R.string.class_bard),
+        stringResource(R.string.class_cleric),
+        stringResource(R.string.class_druid),
+        stringResource(R.string.class_fighter),
+        stringResource(R.string.class_monk),
+        stringResource(R.string.class_paladin),
+        stringResource(R.string.class_ranger),
+        stringResource(R.string.class_rouge),
+        stringResource(R.string.class_sorcerer),
+        stringResource(R.string.class_warlock),
+        stringResource(R.string.class_wizard),
+    )
+    CharacterEntryBody(
+        characterUiState = CharacterUiState(CharacterDetails(
+            name = "Cyn",
+            race = "Half-Elf",
+            battleClass = "Ranger",
+            level = "3",
+            str = "9",
+            dex = "16",
+            con = "12",
+            int = "8",
+            wis = "14",
+            cha = "11",
+            maxHP = "25",
+            ac = "13",
+            background = "Criminal"
+            )
+        ),
+        onCharacterValueChange = {},
+        onSaveClick = { /*TODO*/ },
+        raceOptions = raceOptions,
+        bgOptions = bgOptions,
+        classOptions = classOptions
+    )
 }
