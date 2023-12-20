@@ -1,5 +1,6 @@
 package com.example.characterapp
 
+import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import org.junit.Test
@@ -43,6 +44,20 @@ class UtilsTest {
         assertFalse("Boolean does not equal false", validateAbilityScoreInput("-1"))       //negative case
         assertFalse("Boolean does not equal false", validateAbilityScoreInput("-30"))
         assertFalse("Boolean does not equal false", validateAbilityScoreInput("abc"))      //alphabetical case
+    }
+
+    @Test
+    fun testCalculateMod() {
+        assertEquals("3", calculateMod("16"))        //standard case
+        assertEquals("2", calculateMod("15")  )        //case with decimal
+        assertEquals("-1", calculateMod("8"),)        //case with minus
+        assertEquals("-2", calculateMod("7"),)        //case with minus and decimal
+        assertEquals("-5", calculateMod("1"),)        //lower edge case
+        assertEquals("10", calculateMod("30"),)        //upper edge case
+        assertEquals("0", calculateMod(""))        //blank case
+        assertEquals("0", calculateMod("abc"),)        //letter case
+        assertEquals("0", calculateMod("12.2"))        //decimal case
+        assertEquals("0", calculateMod("12.8"))        //decimal case - higher decimal
     }
 
 }
