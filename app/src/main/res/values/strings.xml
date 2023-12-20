@@ -17,7 +17,7 @@
     <string name="ability_mod_label">Modifier</string>
     <string name="chara_hp_label">Hit Points</string>
     <string name="chara_hp_na_label">N/A</string>
-    <string name="charact_ac_label">Armour Class</string>
+    <string name="chara_ac_label">Armour Class</string>
 
 
     <string name="chara_str_label">Strength</string>

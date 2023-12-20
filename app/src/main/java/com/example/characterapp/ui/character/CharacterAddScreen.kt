@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -40,6 +41,7 @@ import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.helpers.calculateHP
 import com.example.characterapp.helpers.calculateMod
+import com.example.characterapp.helpers.validateACInput
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import com.example.characterapp.ui.AppViewModelProvider
@@ -607,18 +609,24 @@ fun CharacterInputForm(
                 }
 
                 Column(modifier = Modifier.width(105.dp)) {
-                    Text(
-                        text = stringResource(R.string.ability_mod_label),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelSmall,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    Text(
-                        text = calculateMod(characterDetails.cha),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.fillMaxWidth()
+                    OutlinedTextField(
+                        value = characterDetails.ac,
+                        onValueChange = { onValueChange(characterDetails.copy(ac = it)) },
+                        label = { Text(stringResource(R.string.chara_ac_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateACInput(characterDetails.ac),
+                        trailingIcon = {
+                            if (!validateACInput(characterDetails.ac)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        modifier = Modifier.width(105.dp)
                     )
                 }
             }

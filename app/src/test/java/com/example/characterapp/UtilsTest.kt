@@ -6,6 +6,7 @@ import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import org.junit.Test
 import com.example.characterapp.R
+import com.example.characterapp.helpers.validateACInput
 
 import org.junit.Assert.*
 
@@ -36,7 +37,7 @@ class UtilsTest {
         assertTrue("Boolean does not equal true", validateAbilityScoreInput("10"))        //10 case
         assertTrue("Boolean does not equal true", validateAbilityScoreInput("19"))
         assertTrue("Boolean does not equal true", validateAbilityScoreInput("20"))        //20
-        assertTrue("Boolean does not equal true", validateAbilityScoreInput("21"))        //20
+        assertTrue("Boolean does not equal true", validateAbilityScoreInput("21"))
         assertTrue("Boolean does not equal true", validateAbilityScoreInput("30"))        //max case
 
         assertFalse("Boolean does not equal false", validateAbilityScoreInput(""))         //empty case
@@ -73,6 +74,29 @@ class UtilsTest {
 
         assertEquals("Incorrect max HP", 6.toShort(), calculateHP("21", "Wizard", "10"))         //level 21 wizard, 10 con: 6 + 0 + (4+0) * 20 = 86 ->! invalid level = 6 +0+0 = 6 (invalid level)
         assertEquals("Incorrect max HP", 6.toShort(), calculateHP("1", "Wizard", "100"))         //level 3 wizard, 100 con: 6 + 50 + (4+50) * 2 = 164 ->! invalid CON = 6 + 0 + (4+0)*2 = 14 (invalid CON)
+    }
+
+    @Test
+    fun validateACInput_test(){
+        assertTrue("Boolean does not equal true", validateACInput("1"))         //min case
+        assertTrue("Boolean does not equal true", validateACInput("9"))
+        assertTrue("Boolean does not equal true", validateACInput("10"))        //10 case
+        assertTrue("Boolean does not equal true", validateACInput("19"))
+        assertTrue("Boolean does not equal true", validateACInput("20"))        //20
+        assertTrue("Boolean does not equal true", validateACInput("21"))
+        assertTrue("Boolean does not equal true", validateACInput("30"))        //30
+        assertTrue("Boolean does not equal true", validateACInput("35"))
+        assertTrue("Boolean does not equal true", validateACInput("40"))        //40
+        assertTrue("Boolean does not equal true", validateACInput("49"))        //20
+        assertTrue("Boolean does not equal true", validateACInput("50"))        //max case
+
+        assertFalse("Boolean does not equal false", validateACInput(""))         //empty case
+        assertFalse("Boolean does not equal false", validateACInput("0"))        //min edge case
+        assertFalse("Boolean does not equal false", validateACInput("51"))       //max edge case
+        assertFalse("Boolean does not equal false", validateACInput("70"))
+        assertFalse("Boolean does not equal false", validateACInput("-1"))       //negative case
+        assertFalse("Boolean does not equal false", validateACInput("-30"))
+        assertFalse("Boolean does not equal false", validateACInput("abc"))      //alphabetical case
     }
 
 }

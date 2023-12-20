@@ -6,6 +6,7 @@ import kotlin.math.floor
 
 val levelPattern = Regex("\\b([1-9]|1[0-9]|20)\\b")       //allows numbers between 1 and 20 - https://www.regextutorial.org/regex-for-numbers-and-ranges.php
 val abilityScorePattern = Regex("\\b([1-9]|[1|2][0-9]|30)\\b")       //allows numbers between 1 and 30
+val acPattern = Regex("\\b([1-9]|[1|2|3|4][0-9]|50)\\b")       //allows numbers between 1 and 50 (maximum achievable AC is 49)
 //Validate character level input in create or edit screens
 fun validateLevelInput(charLevel: String): Boolean{
     return charLevel.isNotEmpty() && levelPattern.matches(charLevel)
@@ -14,6 +15,11 @@ fun validateLevelInput(charLevel: String): Boolean{
 //Validate ability score inputs in create or edit screens
 fun validateAbilityScoreInput(abilityScore: String): Boolean{
     return abilityScore.isNotEmpty() && abilityScorePattern.matches(abilityScore)
+}
+
+//Validate armour class inputs in create or edit screens
+fun validateACInput(ac: String): Boolean{
+    return ac.isNotEmpty() && acPattern.matches(ac)
 }
 
 // Calculates the ability score modifier from an input score.
