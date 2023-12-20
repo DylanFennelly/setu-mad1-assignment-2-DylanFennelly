@@ -121,8 +121,11 @@ fun CharacterItemRow(character: CharacterModel, onTodoClick: () -> Unit) {
             .padding(8.dp)
             .clickable { onTodoClick() }
     ) {
-        Text(text = character.name, modifier = Modifier.weight(1f))
-        Checkbox(checked = false , onCheckedChange = null)
+        Text(
+            text = character.name,
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.titleMedium,
+        )
     }
 }
 
