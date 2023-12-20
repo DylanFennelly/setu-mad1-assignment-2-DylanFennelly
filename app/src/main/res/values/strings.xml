@@ -10,6 +10,8 @@
     <string name="chara_bg_dropdown_label">Background</string>
     <string name="chara_class_dropdown_label">Class</string>
     <string name="chara_level_label">Level</string>
+    <string name="chara_level_desc">Select a level between 1 and 20</string>
+    <string name="chara_level_error">Error: Level must be between 1 and 20</string>
 
 
     <string name="race_dragonborn">Dragonborn</string>

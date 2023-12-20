@@ -12,6 +12,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.helpers.validateLevelInput
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
 
@@ -283,7 +285,17 @@ fun CharacterInputForm(
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true,
-            isError = characterDetails.level.isEmpty()
+            isError = !validateLevelInput(characterDetails.level),
+            supportingText = {
+                if (!validateLevelInput(characterDetails.level)){
+                    Text(
+                        text = stringResource(R.string.chara_level_error),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }else{
+                    Text(text = stringResource(R.string.chara_level_desc))
+                }
+            }
         )
 
     }
