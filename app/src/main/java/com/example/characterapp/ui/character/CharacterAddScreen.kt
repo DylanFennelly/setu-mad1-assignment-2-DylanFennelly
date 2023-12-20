@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import com.example.characterapp.ui.AppViewModelProvider
@@ -341,75 +342,117 @@ fun CharacterInputForm(
             )
         }
 
-        //Ability scores
+        //Ability scores (STR, DEX, CON)
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                //STR
-                OutlinedTextField(
-                    value = characterDetails.str,
-                    onValueChange = { onValueChange(characterDetails.copy(str = it)) },
-                    label = { Text(stringResource(R.string.chara_str_label)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    enabled = enabled,
-                    singleLine = true,
-                    isError = !validateAbilityScoreInput(characterDetails.str),
-                    trailingIcon = {
-                        if (!validateAbilityScoreInput(characterDetails.str)) {
-                            Icon(
-                                imageVector = Icons.Filled.Warning,
-                                contentDescription = "Error",
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    },
-                    modifier = Modifier.
-                        width(105.dp)
-                )
-                //DEX
-                OutlinedTextField(
-                    value = characterDetails.dex,
-                    onValueChange = { onValueChange(characterDetails.copy(dex = it)) },
-                    label = { Text(stringResource(R.string.chara_dex_label)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    enabled = enabled,
-                    singleLine = true,
-                    isError = !validateAbilityScoreInput(characterDetails.dex),
-                    trailingIcon = {
-                        if (!validateAbilityScoreInput(characterDetails.dex)) {
-                            Icon(
-                                imageVector = Icons.Filled.Warning,
-                                contentDescription = "Error",
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    },
-                    modifier = Modifier.
-                    width(105.dp)
-                )
-                //CON
-                OutlinedTextField(
-                    value = characterDetails.con,
-                    onValueChange = { onValueChange(characterDetails.copy(con = it)) },
-                    label = { Text(stringResource(R.string.chara_con_label)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    enabled = enabled,
-                    singleLine = true,
-                    isError = !validateAbilityScoreInput(characterDetails.con),
-                    trailingIcon = {
-                        if (!validateAbilityScoreInput(characterDetails.con)) {
-                            Icon(
-                                imageVector = Icons.Filled.Warning,
-                                contentDescription = "Error",
-                                tint = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    },
-                    modifier = Modifier.
-                    width(105.dp)
-                )
+                Column(modifier = Modifier.width(105.dp)) {     //https://stackoverflow.com/questions/67681416/jetpack-compose-decrease-height-of-textfield
+                    //STR
+                    OutlinedTextField(
+                        value = characterDetails.str,
+                        onValueChange = { onValueChange(characterDetails.copy(str = it)) },
+                        label = { Text(stringResource(R.string.chara_str_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateAbilityScoreInput(characterDetails.str),
+                        trailingIcon = {
+                            if (!validateAbilityScoreInput(characterDetails.str)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+
+                    )
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = calculateMod(characterDetails.str),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Column(modifier = Modifier.width(105.dp)) {
+                    //DEX
+                    OutlinedTextField(
+                        value = characterDetails.dex,
+                        onValueChange = { onValueChange(characterDetails.copy(dex = it)) },
+                        label = { Text(stringResource(R.string.chara_dex_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateAbilityScoreInput(characterDetails.dex),
+                        trailingIcon = {
+                            if (!validateAbilityScoreInput(characterDetails.dex)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        modifier = Modifier.width(105.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = calculateMod(characterDetails.dex),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Column(modifier = Modifier.width(105.dp)) {
+
+                    //CON
+                    OutlinedTextField(
+                        value = characterDetails.con,
+                        onValueChange = { onValueChange(characterDetails.copy(con = it)) },
+                        label = { Text(stringResource(R.string.chara_con_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateAbilityScoreInput(characterDetails.con),
+                        trailingIcon = {
+                            if (!validateAbilityScoreInput(characterDetails.con)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        modifier = Modifier.width(105.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = calculateMod(characterDetails.con),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
 

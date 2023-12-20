@@ -14,6 +14,7 @@
     <string name="chara_level_error">Error: Level must be between 1 and 20</string>
     <string name="ability_scores_title">Ability Scores</string>
     <string name="ability_scores_desc">Each ability score is between 1–30</string>
+    <string name="ability_mod_label">Modifier</string>
     <string name="chara_str_label">Strength</string>
     <string name="chara_dex_label">Dexterity</string>
     <string name="chara_con_label">Constitution</string>
