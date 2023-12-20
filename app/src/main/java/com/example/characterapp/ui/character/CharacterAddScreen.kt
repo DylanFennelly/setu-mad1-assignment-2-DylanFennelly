@@ -456,6 +456,160 @@ fun CharacterInputForm(
             }
         }
 
+        //Ability scores (INT, WIS, CHA)
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Column(modifier = Modifier.width(105.dp)) {     //https://stackoverflow.com/questions/67681416/jetpack-compose-decrease-height-of-textfield
+                    //INT
+                    OutlinedTextField(
+                        value = characterDetails.int,
+                        onValueChange = { onValueChange(characterDetails.copy(int = it)) },
+                        label = { Text(stringResource(R.string.chara_int_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateAbilityScoreInput(characterDetails.int),
+                        trailingIcon = {
+                            if (!validateAbilityScoreInput(characterDetails.int)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+
+                        )
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = calculateMod(characterDetails.int),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Column(modifier = Modifier.width(105.dp)) {
+                    //WIS
+                    OutlinedTextField(
+                        value = characterDetails.wis,
+                        onValueChange = { onValueChange(characterDetails.copy(wis = it)) },
+                        label = { Text(stringResource(R.string.chara_wis_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateAbilityScoreInput(characterDetails.wis),
+                        trailingIcon = {
+                            if (!validateAbilityScoreInput(characterDetails.wis)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        modifier = Modifier.width(105.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = calculateMod(characterDetails.wis),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Column(modifier = Modifier.width(105.dp)) {
+
+                    //CHA
+                    OutlinedTextField(
+                        value = characterDetails.cha,
+                        onValueChange = { onValueChange(characterDetails.copy(cha = it)) },
+                        label = { Text(stringResource(R.string.chara_cha_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateAbilityScoreInput(characterDetails.cha),
+                        trailingIcon = {
+                            if (!validateAbilityScoreInput(characterDetails.cha)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        modifier = Modifier.width(105.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = calculateMod(characterDetails.cha),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
+
+        //HP and AC
+        item{
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ){
+                Column(modifier = Modifier.width(105.dp)) {
+                    Text(
+                        text = stringResource(R.string.chara_hp_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    Text(
+                        text = characterDetails.maxHP,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+
+                Column(modifier = Modifier.width(105.dp)) {
+                    Text(
+                        text = stringResource(R.string.ability_mod_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    Text(
+                        text = calculateMod(characterDetails.cha),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
+
     }
 }
 
