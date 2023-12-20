@@ -1,9 +1,11 @@
 package com.example.characterapp
 
+import com.example.characterapp.helpers.calculateHP
 import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import org.junit.Test
+import com.example.characterapp.R
 
 import org.junit.Assert.*
 
@@ -47,7 +49,7 @@ class UtilsTest {
     }
 
     @Test
-    fun testCalculateMod() {
+    fun calculateMod_test() {
         assertEquals("3", calculateMod("16"))        //standard case
         assertEquals("2", calculateMod("15")  )        //case with decimal
         assertEquals("-1", calculateMod("8"),)        //case with minus
@@ -58,6 +60,16 @@ class UtilsTest {
         assertEquals("0", calculateMod("abc"),)        //letter case
         assertEquals("0", calculateMod("12.2"))        //decimal case
         assertEquals("0", calculateMod("12.8"))        //decimal case - higher decimal
+    }
+
+    @Test
+    fun calculateHP_test(){
+        assertEquals("Incorrect max HP", 10.toShort(), calculateHP("1", "Bard", "14"))           //level 1 bard, 14 con: 8 + 2 = 10     (simple case)
+        assertEquals("Incorrect max HP", 17.toShort(), calculateHP("3", "Wizard", "12"))         //level 3 wizard, 12 con: 6 + 1 + (4+1) * 2 = 17   (level up case)
+        assertEquals("Incorrect max HP", 345.toShort(), calculateHP("20", "Barbarian", "30"))    //level 20 barbarian, 30 con: 12 + 10 + (7+10)*19 = 345    (upper bound)
+        assertEquals("Incorrect max HP", 3.toShort(), calculateHP("3", "Sorcerer", "1"))         //level 3 sorcerer, 1 con: 6 - 5 + [(4-5) -1 < 1? 1] * 2 = 3   (negative HP per level case - defaults to 1 hp per level)
+        assertEquals("Incorrect max HP", 0.toShort(), calculateHP("1", "Invalid", "10"))                        //Level 1 no class, 10 con = 0     (for if calculation is done before class assigned)
+        assertEquals("Incorrect max HP", 19.toShort(), calculateHP("20", "Invalid", "10"))                      //Level 20 no class, 10 con = 0 + 1*19 = 19     (if level up would give 0 hp, defaults to 1)
     }
 
 }
