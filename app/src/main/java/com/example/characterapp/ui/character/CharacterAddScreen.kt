@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -286,7 +289,7 @@ fun CharacterInputForm(
             enabled = enabled,
             singleLine = true,
             isError = !validateLevelInput(characterDetails.level),
-            supportingText = {
+            supportingText = {                                                  //https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlinedtextfield-in-jetpack-compose
                 if (!validateLevelInput(characterDetails.level)){
                     Text(
                         text = stringResource(R.string.chara_level_error),
@@ -294,6 +297,14 @@ fun CharacterInputForm(
                     )
                 }else{
                     Text(text = stringResource(R.string.chara_level_desc))
+                }
+            },
+            trailingIcon = {
+                if (!validateLevelInput(characterDetails.level)){
+                    Icon(
+                        imageVector = Icons.Filled.Warning,         //for some reason, the Error icon does not exist
+                        contentDescription = "Error",
+                        tint = MaterialTheme.colorScheme.error)
                 }
             }
         )
