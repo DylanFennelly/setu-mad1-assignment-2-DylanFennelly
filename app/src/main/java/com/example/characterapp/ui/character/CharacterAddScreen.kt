@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -323,6 +324,20 @@ fun CharacterInputForm(
                 }
             )
         }
+        item {
+            Text(
+                text = stringResource(R.string.ability_scores_title),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Text(
+                text = stringResource(R.string.ability_scores_desc),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         //Ability scores
         item {
@@ -330,7 +345,25 @@ fun CharacterInputForm(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text(text = "Score 1")
+                //STR
+                OutlinedTextField(
+                    value = characterDetails.str,
+                    onValueChange = { onValueChange(characterDetails.copy(str = it)) },
+                    label = { Text(stringResource(R.string.chara_str_label)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    enabled = enabled,
+                    singleLine = true,
+                    isError = !validateLevelInput(characterDetails.str),
+                    trailingIcon = {
+                        if (!validateLevelInput(characterDetails.str)) {
+                            Icon(
+                                imageVector = Icons.Filled.Warning,
+                                contentDescription = "Error",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    }
+                )
                 Text(text = "Score 2")
                 Text(text = "Score 3")
             }
