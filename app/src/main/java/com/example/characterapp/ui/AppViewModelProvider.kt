@@ -27,7 +27,7 @@ object AppViewModelProvider {
 
 /**
  * Extension function to queries for [Application] object and returns an instance of
- * [InventoryApplication].
+ * [CharacterApplication].
  */
 fun CreationExtras.characterApplication(): CharacterApplication =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CharacterApplication)

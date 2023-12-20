@@ -17,19 +17,7 @@ class HomeViewModel(private val repository: CharacterRepository) : ViewModel() {
         refreshCharacters()
     }
 
-    fun addCharacter(task: String) {
-        val newTodo = CharacterModel(id = (characters.value.size + 1).toLong())     //other values
-        repository.addCharacter(newTodo)
-        refreshCharacters()
-    }
-
-    fun toggleTodoStatus(todo: CharacterModel) {
-//        val updatedTodo = todo.copy(isCompleted = !todo.isCompleted)
-//        repository.updateTodo(updatedTodo)
-        refreshCharacters()
-    }
-
-    private fun refreshCharacters() {
-        characters.value = repository.getTodos()
+    fun refreshCharacters() {
+        characters.value = repository.getCharacters()
     }
 }

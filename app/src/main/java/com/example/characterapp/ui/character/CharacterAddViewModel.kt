@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.example.characterapp.data.CharacterModel
 import com.example.characterapp.data.CharacterRepository
 import com.example.characterapp.helpers.calculateHP
+import com.example.characterapp.helpers.validateACInput
+import com.example.characterapp.helpers.validateAbilityScoreInput
+import com.example.characterapp.helpers.validateLevelInput
 
 
 //ViewModel to validate and insert items in the Room database.
@@ -16,10 +19,9 @@ class CharacterAddViewModel(private val characterRepository: CharacterRepository
     var characterUiState by mutableStateOf(CharacterUiState())
         private set
 
-
-    //TODO: seperate updateUiState method for hp cal -> currently recalculate every time a value is updated (even it it doesnt affect HP)
     fun updateUiState(characterDetails: CharacterDetails){
         characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+
     }
 
 
@@ -31,13 +33,24 @@ class CharacterAddViewModel(private val characterRepository: CharacterRepository
 
     private fun validateInput(uiState: CharacterDetails = characterUiState.characterDetails): Boolean {
         return with(uiState) {
-            name.isNotBlank() && race.isNotBlank() && battleClass.isNotBlank() && background.isNotBlank()
+            name.isNotBlank() &&
+            race.isNotBlank() &&
+            battleClass.isNotBlank() &&
+            background.isNotBlank() &&
+            validateLevelInput(level) &&
+            validateAbilityScoreInput(str) &&
+            validateAbilityScoreInput(dex) &&
+            validateAbilityScoreInput(con) &&
+            validateAbilityScoreInput(int) &&
+            validateAbilityScoreInput(wis) &&
+            validateAbilityScoreInput(cha) &&
+            validateACInput(ac)
         }
     }
 
     suspend fun saveCharacter(){
         if (validateInput()){
-            characterRepository.addCharacter(characterUiState.characterDetails.toCharacter())
+            characterRepository.addCharacter(characterUiState.characterDetails.toCharacter(characterRepository.getCharacters()))
         }
     }
 
@@ -68,8 +81,8 @@ data class CharacterDetails(
 
 
 // Extension function to convert [CharacterDetails] to [CharacterModel]
-fun CharacterDetails.toCharacter(): CharacterModel = CharacterModel(
-    id = id,
+fun CharacterDetails.toCharacter(characterList: List<CharacterModel>): CharacterModel = CharacterModel(
+    id = (characterList.size + 1).toLong(),
     name = name,
     race = race,
     battleClass = battleClass,

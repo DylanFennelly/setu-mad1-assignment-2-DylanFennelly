@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,6 +49,7 @@ import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
+import kotlinx.coroutines.launch
 
 object CharacterAddDestination: NavigationDestination {
     override val route = "add_character"
@@ -119,7 +122,12 @@ fun CharacterAddScreen(
             characterUiState = characterViewModel.characterUiState,
             onCharacterValueChange = characterViewModel::updateUiState,
             onCharacterHPValueChange = characterViewModel::updateUiStateAndHP,
-            onSaveClick = { /*TODO*/ },
+            onSaveClick = {
+                          coroutineScope.launch {
+                              characterViewModel.saveCharacter()
+                              navigateBack()
+                          }
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
@@ -142,7 +150,7 @@ fun CharacterEntryBody(
 ){
   LazyColumn (
       verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
-      modifier = Modifier.padding(top = 64.dp, start = 16.dp, end = 16.dp),
+      modifier = Modifier.padding(top = 68.dp, start = 16.dp, end = 16.dp),
   ){
       item {
           CharacterInputForm(
@@ -157,7 +165,11 @@ fun CharacterEntryBody(
           Button(
               onClick = onSaveClick,
               enabled = characterUiState.isEntryValid,
-              modifier = Modifier.fillMaxWidth().padding(top=16.dp, bottom = 24.dp).height(50.dp)
+              modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(top = 16.dp, bottom = 24.dp)
+                  .height(50.dp),
+              colors = ButtonDefaults.buttonColors(colorResource(R.color.dnd_red))      //https://stackoverflow.com/questions/64376333/background-color-on-button-in-jetpack-compose
           ) {
               Text(text = stringResource(R.string.save_button))
           }
