@@ -282,7 +282,8 @@ fun CharacterInputForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
-            singleLine = true
+            singleLine = true,
+            isError = characterDetails.level.isEmpty()
         )
 
     }
