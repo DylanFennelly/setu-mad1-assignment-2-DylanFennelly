@@ -6,7 +6,11 @@
     <string name="back_button">Back</string>
     <string name="home_title">Characters</string>
     <string name="chara_name_label">Name</string>
-    <string name="race_dropdown_label">Race</string>
+    <string name="chara_race_dropdown_label">Race</string>
+    <string name="chara_bg_dropdown_label">Background</string>
+    <string name="chara_class_dropdown_label">Class</string>
+
+
     <string name="race_dragonborn">Dragonborn</string>
     <string name="race_dwarf">Dwarf</string>
     <string name="race_elf">Elf</string>
@@ -16,4 +20,34 @@
     <string name="race_halfling">Halfling</string>
     <string name="race_human">Human</string>
     <string name="race_tiefling">Tiefling</string>
+
+
+    <string name="bg_acolyte">Acolyte</string>
+    <string name="bg_charlatan">Charlatan</string>
+    <string name="bg_criminal">Criminal</string>
+    <string name="bg_entertainer">Entertainer</string>
+    <string name="bg_folk_hero">Folk Hero</string>
+    <string name="bg_guild_artisan">Guild Artisan</string>
+    <string name="bg_hermit">Hermit</string>
+    <string name="bg_noble">Noble</string>
+    <string name="bg_outlander">Outlander</string>
+    <string name="bg_sage">Sage</string>
+    <string name="bg_sailor">Sailor</string>
+    <string name="bg_solider">Soldier</string>
+    <string name="bg_urchin">Urchin</string>
+
+
+    <string name="class_barbarian">Barbarian</string>
+    <string name="class_bard">Bard</string>
+    <string name="class_cleric">Cleric</string>
+    <string name="class_druid">Druid</string>
+    <string name="class_fighter">Fighter</string>
+    <string name="class_monk">Monk</string>
+    <string name="class_paladin">Paladin</string>
+    <string name="class_ranger">Ranger</string>
+    <string name="class_rouge">Rouge</string>
+    <string name="class_sorcerer">Sorcerer</string>
+    <string name="class_warlock">Warlock</string>
+    <string name="class_wizard">Wizard</string>
+
 </resources>

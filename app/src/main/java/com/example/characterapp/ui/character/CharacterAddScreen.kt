@@ -1,15 +1,12 @@
 package com.example.characterapp.ui.character
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -17,7 +14,6 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,7 +46,7 @@ fun CharacterAddScreen(
 ){
     val coroutineScope = rememberCoroutineScope()
     //TODO: define elsewhere?
-    val raceOptions = listOf<String>(
+    val raceOptions = listOf(
         stringResource(R.string.race_dragonborn),
         stringResource(R.string.race_dwarf),
         stringResource(R.string.race_elf),
@@ -60,6 +56,35 @@ fun CharacterAddScreen(
         stringResource(R.string.race_halfling),
         stringResource(R.string.race_human),
         stringResource(R.string.race_tiefling),
+    )
+    val bgOptions = listOf(
+        stringResource(R.string.bg_acolyte),
+        stringResource(R.string.bg_charlatan),
+        stringResource(R.string.bg_criminal),
+        stringResource(R.string.bg_entertainer),
+        stringResource(R.string.bg_folk_hero),
+        stringResource(R.string.bg_guild_artisan),
+        stringResource(R.string.bg_hermit),
+        stringResource(R.string.bg_noble),
+        stringResource(R.string.bg_outlander),
+        stringResource(R.string.bg_sage),
+        stringResource(R.string.bg_sailor),
+        stringResource(R.string.bg_solider),
+        stringResource(R.string.bg_urchin),
+    )
+    val classOptions = listOf(
+        stringResource(R.string.class_barbarian),
+        stringResource(R.string.class_bard),
+        stringResource(R.string.class_cleric),
+        stringResource(R.string.class_druid),
+        stringResource(R.string.class_fighter),
+        stringResource(R.string.class_monk),
+        stringResource(R.string.class_paladin),
+        stringResource(R.string.class_ranger),
+        stringResource(R.string.class_rouge),
+        stringResource(R.string.class_sorcerer),
+        stringResource(R.string.class_warlock),
+        stringResource(R.string.class_wizard),
     )
 
     Scaffold(
@@ -80,7 +105,7 @@ fun CharacterAddScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth(),
-            raceOptions = raceOptions
+            raceOptions = raceOptions, bgOptions = bgOptions, classOptions = classOptions
         )
     }
 }
@@ -91,7 +116,9 @@ fun CharacterEntryBody(
     onCharacterValueChange: (CharacterDetails) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
-    raceOptions: List<String>
+    raceOptions: List<String>,
+    bgOptions: List<String>,
+    classOptions: List<String>,
 ){
   Column (
       verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
@@ -101,7 +128,7 @@ fun CharacterEntryBody(
           characterDetails = characterUiState.characterDetails,
           onValueChange =  onCharacterValueChange,
           modifier = Modifier.fillMaxWidth(),
-          raceOptions = raceOptions
+          raceOptions = raceOptions, bgOptions = bgOptions, classOptions = classOptions
       )
   }
 }
@@ -113,15 +140,19 @@ fun CharacterInputForm(
     modifier: Modifier = Modifier,
     onValueChange: (CharacterDetails) -> Unit = {},
     raceOptions: List<String>,
+    bgOptions: List<String>,
+    classOptions: List<String>,
     enabled: Boolean = true
 ){
-    var expanded by remember { mutableStateOf(false)}   //state of dropdown menu (if it is open or not)
+    var raceExpanded by remember { mutableStateOf(false)}   //state of dropdown menu (if it is open or not)
+    var bgExpanded by remember { mutableStateOf(false)}
+    var classExpanded by remember { mutableStateOf(false)}
 
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ){
-
+        //Name
         OutlinedTextField(      //https://alexzh.com/jetpack-compose-dropdownmenu/
             value = characterDetails.name,
             onValueChange = { onValueChange(characterDetails.copy(name = it)) },
@@ -131,11 +162,12 @@ fun CharacterInputForm(
             singleLine = true
         )
 
+        //Race
         //https://alexzh.com/jetpack-compose-dropdownmenu/
         ExposedDropdownMenuBox(
-            expanded = expanded,
+            expanded = raceExpanded,
             onExpandedChange = {
-                expanded = !expanded // flip state of menu open/closed
+                raceExpanded = !raceExpanded // flip state of menu open/closed
             }
         ) {
             OutlinedTextField(
@@ -145,15 +177,14 @@ fun CharacterInputForm(
                 readOnly = true,
                 value = characterDetails.race,
                 onValueChange = {},
-                label = { Text(stringResource(R.string.race_dropdown_label)) },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                label = { Text(stringResource(R.string.chara_race_dropdown_label)) },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = raceExpanded) },
             )
 
-            // menu
             ExposedDropdownMenu(
-                expanded = expanded,
+                expanded = raceExpanded,
                 onDismissRequest = {
-                    expanded = false        //when menu is dismissed, close menu
+                    raceExpanded = false        //when menu is dismissed, close menu
                 },
             ) {
                 // menu items
@@ -162,7 +193,79 @@ fun CharacterInputForm(
                         text = { Text(option) },
                         onClick = {
                             characterDetails.race = option
-                            expanded = false
+                            raceExpanded = false
+                        }
+                    )
+                }
+            }
+        }
+
+        //background
+        ExposedDropdownMenuBox(
+            expanded = bgExpanded,
+            onExpandedChange = {
+                bgExpanded = !bgExpanded
+            }
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                readOnly = true,
+                value = characterDetails.background,
+                onValueChange = {},
+                label = { Text(stringResource(R.string.chara_bg_dropdown_label)) },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = bgExpanded) },
+            )
+
+            ExposedDropdownMenu(
+                expanded = bgExpanded,
+                onDismissRequest = {
+                    bgExpanded = false        //when menu is dismissed, close menu
+                },
+            ) {
+                bgOptions.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            characterDetails.background = option
+                            bgExpanded = false
+                        }
+                    )
+                }
+            }
+        }
+
+        //class
+        ExposedDropdownMenuBox(
+            expanded = classExpanded,
+            onExpandedChange = {
+                classExpanded = !classExpanded
+            }
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
+                readOnly = true,
+                value = characterDetails.battleClass,
+                onValueChange = {},
+                label = { Text(stringResource(R.string.chara_class_dropdown_label)) },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = classExpanded) },
+            )
+
+            ExposedDropdownMenu(
+                expanded = classExpanded,
+                onDismissRequest = {
+                    classExpanded = false        //when menu is dismissed, close menu
+                },
+            ) {
+                classOptions.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            characterDetails.battleClass = option
+                            classExpanded = false
                         }
                     )
                 }
