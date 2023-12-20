@@ -9,6 +9,7 @@
     <string name="chara_race_dropdown_label">Race</string>
     <string name="chara_bg_dropdown_label">Background</string>
     <string name="chara_class_dropdown_label">Class</string>
+    <string name="chara_level_label">Level</string>
 
 
     <string name="race_dragonborn">Dragonborn</string>
