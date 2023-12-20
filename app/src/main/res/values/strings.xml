@@ -5,5 +5,15 @@
     <string name="no_character_desc">No characters have been created.\nTap + to create a new character.</string>
     <string name="back_button">Back</string>
     <string name="home_title">Characters</string>
-    <string name="chara_name_label">Character Name</string>
+    <string name="chara_name_label">Name</string>
+    <string name="race_dropdown_label">Race</string>
+    <string name="race_dragonborn">Dragonborn</string>
+    <string name="race_dwarf">Dwarf</string>
+    <string name="race_elf">Elf</string>
+    <string name="race_gnome">Gnome</string>
+    <string name="race_halfelf">Half-Elf</string>
+    <string name="race_halforc">Half-Orc</string>
+    <string name="race_halfling">Halfling</string>
+    <string name="race_human">Human</string>
+    <string name="race_tiefling">Tiefling</string>
 </resources>
