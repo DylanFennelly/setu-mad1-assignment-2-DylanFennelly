@@ -3,17 +3,6 @@ package com.example.characterapp.data
 import kotlinx.coroutines.flow.Flow
 
 class OfflineCharacterRepository(private val characterDao: CharacterDao): CharacterRepository {
-    override fun getCharacters(): List<CharacterModel> {
-        TODO("Remove when no longer needed")
-    }
-
-    override fun addCharacter(characterModel: CharacterModel) {
-        TODO("Remove when no longer needed")
-    }
-
-    override fun updateTodo(todo: CharacterModel) {
-        TODO("Remove when no longer needed")
-    }
 
     override fun getAllCharactersStream(): Flow<List<CharacterModel>> = characterDao.getAllCharacters()
 

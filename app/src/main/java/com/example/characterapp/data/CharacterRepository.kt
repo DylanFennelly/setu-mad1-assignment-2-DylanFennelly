@@ -4,11 +4,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
 
-    //TODO: remove when no longer used in app
-    fun getCharacters(): List<CharacterModel>
-    fun addCharacter(characterModel: CharacterModel)
-    fun updateTodo(todo: CharacterModel)
-
     //Retrieve all the characters from the the given data source.
     fun getAllCharactersStream(): Flow<List<CharacterModel>>
 
