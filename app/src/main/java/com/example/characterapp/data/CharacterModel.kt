@@ -1,7 +1,13 @@
 package com.example.characterapp.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "characters")
 data class CharacterModel(
+    @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
+
     var name: String = "",          //name of character
     var race: String = "",          //race
     var battleClass: String = "",   //class of character -> class is reserved word

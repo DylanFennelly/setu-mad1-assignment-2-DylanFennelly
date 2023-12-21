@@ -1,18 +1,9 @@
 package com.example.characterapp.data
 
-class InMemoryCharacterRepository : CharacterRepository {
-    private var characterList = mutableListOf<CharacterModel>()
+import kotlinx.coroutines.flow.Flow
 
-    override fun getCharacters(): List<CharacterModel> = characterList.toList()
+class InMemoryCharacterRepository  {
 
-    override fun addCharacter(characterModel: CharacterModel) {
-        characterList.add(characterModel)
-    }
 
-    override fun updateTodo(todo: CharacterModel) {
-        val index = characterList.indexOfFirst { it.id == todo.id }
-        if (index != -1) {
-            characterList[index] = todo
-        }
-    }
+
 }

@@ -7,6 +7,6 @@ class CharacterApplication : Application() {
     lateinit var container: AppContainer
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer()
+        container = AppDataContainer(this)
     }
 }

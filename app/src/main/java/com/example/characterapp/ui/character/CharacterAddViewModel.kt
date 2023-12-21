@@ -50,7 +50,7 @@ class CharacterAddViewModel(private val characterRepository: CharacterRepository
 
     suspend fun saveCharacter(){
         if (validateInput()){
-            characterRepository.addCharacter(characterUiState.characterDetails.toCharacter(characterRepository.getCharacters()))
+            characterRepository.insertCharacter(characterUiState.characterDetails.toCharacter())
         }
     }
 
@@ -81,8 +81,8 @@ data class CharacterDetails(
 
 
 // Extension function to convert [CharacterDetails] to [CharacterModel]
-fun CharacterDetails.toCharacter(characterList: List<CharacterModel>): CharacterModel = CharacterModel(
-    id = (characterList.size + 1).toLong(),
+fun CharacterDetails.toCharacter(): CharacterModel = CharacterModel(
+    id = id,
     name = name,
     race = race,
     battleClass = battleClass,
