@@ -20,7 +20,7 @@ interface CharacterDao {
     suspend fun delete(characterModel: CharacterModel)
 
     @Query("SELECT * from characters WHERE id = :id")
-    fun getCharacter(id: Int): Flow<CharacterModel>     //Flow auto updates with updates asynchronously
+    fun getCharacter(id: Long): Flow<CharacterModel>     //Flow auto updates with updates asynchronously
 
     @Query("SELECT * from characters ORDER BY name ASC")
     fun getAllCharacters(): Flow<List<CharacterModel>>
