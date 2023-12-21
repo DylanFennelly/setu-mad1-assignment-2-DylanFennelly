@@ -1,7 +1,5 @@
 package com.example.characterapp.helpers
 
-import androidx.compose.ui.res.stringResource
-import com.example.characterapp.R
 import kotlin.math.floor
 
 val levelPattern = Regex("\\b([1-9]|1[0-9]|20)\\b")       //allows numbers between 1 and 20 - https://www.regextutorial.org/regex-for-numbers-and-ranges.php

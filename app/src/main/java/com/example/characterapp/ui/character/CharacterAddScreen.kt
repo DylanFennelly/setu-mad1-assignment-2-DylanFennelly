@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
-import com.example.characterapp.helpers.calculateHP
 import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.helpers.validateACInput
 import com.example.characterapp.helpers.validateAbilityScoreInput

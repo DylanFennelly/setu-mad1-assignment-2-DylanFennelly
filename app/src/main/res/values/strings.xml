@@ -3,6 +3,7 @@
     <string name="add_character">Create Character</string>
     <string name="item_entry_title">Add Character</string>
     <string name="character_details_title">Character Details</string>
+    <string name="character_stats_title">Character Statistics</string>
     <string name="no_character_desc">No characters have been created.\nTap + to create a new character.</string>
     <string name="back_button">Back</string>
     <string name="home_title">Characters</string>
@@ -20,6 +21,7 @@
     <string name="chara_hp_na_label">N/A</string>
     <string name="chara_ac_label">Armour Class</string>
     <string name="save_button">Create Character</string>
+
 
 
     <string name="chara_str_label">Strength</string>

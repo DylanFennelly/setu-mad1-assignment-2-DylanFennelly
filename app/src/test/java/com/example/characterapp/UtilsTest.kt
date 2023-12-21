@@ -5,7 +5,6 @@ import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
 import org.junit.Test
-import com.example.characterapp.R
 import com.example.characterapp.helpers.validateACInput
 
 import org.junit.Assert.*
