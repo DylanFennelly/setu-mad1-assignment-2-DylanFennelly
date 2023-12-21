@@ -53,7 +53,7 @@ object HomeDestination: NavigationDestination {
 @Composable
 fun HomeScreen(
     navigateToCreateCharacter: () -> Unit,
-    navigateToItemUpdate: (Int) -> Unit,
+    navigateToItemUpdate: (Long) -> Unit,
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -97,7 +97,7 @@ fun HomeScreen(
 
 @Composable
 fun HomeBody(
-    characterList: List<CharacterModel>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+    characterList: List<CharacterModel>, onItemClick: (Long) -> Unit, modifier: Modifier = Modifier
 ){
     Column(
         modifier = Modifier
@@ -112,7 +112,7 @@ fun HomeBody(
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
-            CharacterList(characters = characterList, onTodoClick = { })
+            CharacterList(characters = characterList, onTodoClick = { onItemClick(it.id)})
         }
     }
 }

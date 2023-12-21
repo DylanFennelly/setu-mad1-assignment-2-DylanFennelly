@@ -2,6 +2,7 @@
     <string name="app_name">CharacterApp</string>
     <string name="add_character">Create Character</string>
     <string name="item_entry_title">Add Character</string>
+    <string name="character_details_title">Character Details</string>
     <string name="no_character_desc">No characters have been created.\nTap + to create a new character.</string>
     <string name="back_button">Back</string>
     <string name="home_title">Characters</string>
