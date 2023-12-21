@@ -27,7 +27,7 @@ fun CharacterNavHost(
         composable(route =  HomeDestination.route){
             HomeScreen(
                 navigateToCreateCharacter = {navController.navigate(CharacterAddDestination.route)},
-                navigateToItemUpdate = { navController.navigate("${CharacterDetailsDestination.route}/${it}") }
+                navigateToCharacterDetails = { navController.navigate("${CharacterDetailsDestination.route}/${it}") }
             )
         }
 

@@ -7,8 +7,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
+import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
 
 object CharacterDetailsDestination : NavigationDestination {
@@ -26,7 +28,7 @@ fun CharacterDetailsScreen(
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
     modifier: Modifier = Modifier,
-    //viewModel: ItemDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    detailsViewModel: CharacterDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
    Scaffold(
        topBar = {
