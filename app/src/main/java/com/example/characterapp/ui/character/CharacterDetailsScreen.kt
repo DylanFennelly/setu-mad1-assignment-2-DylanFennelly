@@ -59,6 +59,7 @@ object CharacterDetailsDestination : NavigationDestination {
 @Composable
 fun CharacterDetailsScreen(
     navigateBack: () -> Unit,
+    navigateToUpdateCharacter: (Long) -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
     canDelete: Boolean = true,
@@ -79,7 +80,7 @@ fun CharacterDetailsScreen(
                canUpdate = canDelete,
                navigateUp = onNavigateUp,
                onDeleteClick = {deleteConfirmation = true},
-               onUpdateClick = {}
+               onUpdateClick = {navigateToUpdateCharacter(uiState.value.characterDetails.id)}
            )
        }
    ) {innerPadding ->
