@@ -118,7 +118,6 @@ fun CharacterAddScreen(
                 canNavigateBack = canNavigateBack,
                 canDelete = false,
                 canUpdate = false,
-                //navigateUp = onNavigateUp
                 navigateUp = { cancelCreationConfirmation = true }
             )
         }

@@ -32,10 +32,8 @@
     <string name="cancel_creation_alert_desc">Are you sure you want to cancel character creation?</string>
     <string name="alert_confirm">Confirm</string>
     <string name="alert_go_back">Go Back</string>
-
-
-
-
+    <string name="cancel_update_alert_title">Cancel update?</string>
+    <string name="cancel_update_alert_desc">Are you sure you want to cancel character update?</string>
 
 
     <string name="chara_str_label">Strength</string>
