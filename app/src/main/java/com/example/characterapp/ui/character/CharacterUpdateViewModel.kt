@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.characterapp.data.CharacterRepository
+import com.example.characterapp.helpers.calculateHP
 import com.example.characterapp.helpers.validateACInput
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
@@ -53,6 +54,11 @@ class CharacterUpdateViewModel(
     fun updateUiState(characterDetails: CharacterDetails) {
         characterUiState =
             CharacterUiState(characterDetails = characterDetails, isEntryValid = validateInput(characterDetails))
+    }
+
+    fun updateUiStateAndHP(characterDetails: CharacterDetails){
+        characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+        characterDetails.maxHP = calculateHP(characterDetails.level, characterDetails.battleClass, characterDetails.con).toString()
     }
 
     suspend fun updateItem() {
