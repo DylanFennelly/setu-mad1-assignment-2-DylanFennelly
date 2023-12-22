@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.characterapp.CharacterApplication
 import com.example.characterapp.ui.character.CharacterAddViewModel
 import com.example.characterapp.ui.character.CharacterDetailsViewModel
+import com.example.characterapp.ui.character.CharacterUpdateViewModel
 import com.example.characterapp.ui.home.HomeViewModel
 
 /**
@@ -26,6 +27,12 @@ object AppViewModelProvider {
 
         initializer {
             CharacterDetailsViewModel(
+                this.createSavedStateHandle(),
+                characterApplication().container.characterRepository
+            )
+        }
+        initializer {
+            CharacterUpdateViewModel(
                 this.createSavedStateHandle(),
                 characterApplication().container.characterRepository
             )

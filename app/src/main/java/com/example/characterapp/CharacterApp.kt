@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,10 +38,12 @@ fun CharacterTopAppBar(
     title: String,
     canNavigateBack: Boolean,
     canDelete: Boolean,         //used to display delete icon
+    canUpdate: Boolean,         //used to display update icon
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     navigateUp: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
+    onUpdateClick: () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
@@ -71,6 +74,15 @@ fun CharacterTopAppBar(
                     )
                 }
             }
+            if (canUpdate){
+                IconButton(onClick = { onUpdateClick() }) {     //Generative AI Usage 3.
+                    Icon(imageVector = Icons.Filled.Edit,
+                        contentDescription = stringResource(R.string.update_button),
+                        tint = Color.White
+                    )
+                }
+            }
+
         }
     )
 }

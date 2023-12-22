@@ -113,6 +113,7 @@ fun CharacterAddScreen(
                 title = stringResource(CharacterAddDestination.titleRes),
                 canNavigateBack = canNavigateBack,
                 canDelete = false,
+                canUpdate = false,
                 navigateUp = onNavigateUp
             )
         }
@@ -147,6 +148,7 @@ fun CharacterEntryBody(
     raceOptions: List<String>,
     bgOptions: List<String>,
     classOptions: List<String>,
+    isUpdate: Boolean = false
 ){
   LazyColumn (
       verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_large)),
@@ -171,7 +173,11 @@ fun CharacterEntryBody(
                   .height(50.dp),
               colors = ButtonDefaults.buttonColors(colorResource(R.color.dnd_red))      //https://stackoverflow.com/questions/64376333/background-color-on-button-in-jetpack-compose
           ) {
-              Text(text = stringResource(R.string.save_button))
+              if (isUpdate){
+                  Text(text = stringResource(R.string.update_button))
+              }else {
+                  Text(text = stringResource(R.string.save_button))
+              }
           }
       }
   }
