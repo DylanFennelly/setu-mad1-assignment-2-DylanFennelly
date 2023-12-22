@@ -67,6 +67,7 @@ fun HomeScreen(
                  title = stringResource(HomeDestination.titleRes),
                  canNavigateBack = false,
                  canDelete = false,
+                 canUpdate = false,
                  scrollBehavior = scrollBehavior,
                  modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
              )

@@ -62,6 +62,7 @@ fun CharacterDetailsScreen(
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
     canDelete: Boolean = true,
+    canUpdate: Boolean = true,
     modifier: Modifier = Modifier,
     detailsViewModel: CharacterDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -75,8 +76,10 @@ fun CharacterDetailsScreen(
                title = uiState.value.characterDetails.name,
                canNavigateBack = canNavigateBack,
                canDelete = canDelete,
+               canUpdate = canDelete,
                navigateUp = onNavigateUp,
-               onDeleteClick = {deleteConfirmation = true}
+               onDeleteClick = {deleteConfirmation = true},
+               onUpdateClick = {}
            )
        }
    ) {innerPadding ->

@@ -113,6 +113,7 @@ fun CharacterAddScreen(
                 title = stringResource(CharacterAddDestination.titleRes),
                 canNavigateBack = canNavigateBack,
                 canDelete = false,
+                canUpdate = false,
                 navigateUp = onNavigateUp
             )
         }
