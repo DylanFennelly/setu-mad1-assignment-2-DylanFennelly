@@ -3,10 +3,14 @@ package com.example.characterapp.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.characterapp.ui.character.CharacterAddDestination
 import com.example.characterapp.ui.character.CharacterAddScreen
+import com.example.characterapp.ui.character.CharacterDetailsDestination
+import com.example.characterapp.ui.character.CharacterDetailsScreen
 import com.example.characterapp.ui.home.HomeScreen
 import com.example.characterapp.ui.home.HomeDestination
 
@@ -23,7 +27,7 @@ fun CharacterNavHost(
         composable(route =  HomeDestination.route){
             HomeScreen(
                 navigateToCreateCharacter = {navController.navigate(CharacterAddDestination.route)},
-                navigateToItemUpdate = {}
+                navigateToCharacterDetails = { navController.navigate("${CharacterDetailsDestination.route}/${it}") }
             )
         }
 
@@ -32,5 +36,17 @@ fun CharacterNavHost(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
         }
+
+        composable(
+            route = CharacterDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(CharacterDetailsDestination.characterIdArg){
+                type = NavType.LongType
+            })
+        ){
+            CharacterDetailsScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() })
+        }
+
     }
 }
