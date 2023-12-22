@@ -57,6 +57,7 @@ fun CharacterDetailsScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
+    canDelete: Boolean = true,
     modifier: Modifier = Modifier,
     detailsViewModel: CharacterDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -68,6 +69,7 @@ fun CharacterDetailsScreen(
            CharacterTopAppBar(
                title = uiState.value.characterDetails.name,
                canNavigateBack = canNavigateBack,
+               canDelete = canDelete,
                navigateUp = onNavigateUp
            )
        }

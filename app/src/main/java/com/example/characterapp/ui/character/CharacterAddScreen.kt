@@ -112,6 +112,7 @@ fun CharacterAddScreen(
             CharacterTopAppBar(
                 title = stringResource(CharacterAddDestination.titleRes),
                 canNavigateBack = canNavigateBack,
+                canDelete = false,
                 navigateUp = onNavigateUp
             )
         }
