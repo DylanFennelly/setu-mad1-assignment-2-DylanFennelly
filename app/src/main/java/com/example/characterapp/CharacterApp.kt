@@ -3,11 +3,11 @@ package com.example.characterapp
 import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -36,9 +36,11 @@ fun CharacterApp(navController: NavHostController = rememberNavController()){
 fun CharacterTopAppBar(
     title: String,
     canNavigateBack: Boolean,
+    canDelete: Boolean,         //used to display delete icon
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
@@ -59,6 +61,16 @@ fun CharacterTopAppBar(
             //https://developer.android.com/jetpack/compose/components/app-bars
             containerColor = Color(android.graphics.Color.parseColor(stringResource(R.color.dnd_red))),   //https://developermemos.com/posts/using-hex-colors-compose
             titleContentColor = Color.White
-        )
+        ),
+        actions = {
+            if (canDelete){
+                IconButton(onClick = { onDeleteClick() }) {     //Generative AI Usage 3.
+                    Icon(imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(R.string.delete_button),
+                        tint = Color.White
+                    )
+                }
+            }
+        }
     )
 }

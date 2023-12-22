@@ -1,9 +1,7 @@
 package com.example.characterapp.ui.character
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,18 +12,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -42,6 +45,7 @@ import com.example.characterapp.helpers.calculateMod
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
 import com.example.characterapp.ui.theme.CharacterAppTheme
+import kotlinx.coroutines.launch
 
 object CharacterDetailsDestination : NavigationDestination {
     override val route = "character_details"
@@ -57,18 +61,22 @@ fun CharacterDetailsScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     canNavigateBack: Boolean = true,
+    canDelete: Boolean = true,
     modifier: Modifier = Modifier,
     detailsViewModel: CharacterDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState = detailsViewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    var deleteConfirmation by rememberSaveable { mutableStateOf(false) }
 
    Scaffold(
        topBar = {
            CharacterTopAppBar(
                title = uiState.value.characterDetails.name,
                canNavigateBack = canNavigateBack,
-               navigateUp = onNavigateUp
+               canDelete = canDelete,
+               navigateUp = onNavigateUp,
+               onDeleteClick = {deleteConfirmation = true}
            )
        }
    ) {innerPadding ->
@@ -78,6 +86,37 @@ fun CharacterDetailsScreen(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         )
+
+       if(deleteConfirmation){
+           AlertDialog(
+               onDismissRequest = { deleteConfirmation = false },
+               title = { Text(text = stringResource(R.string.delete_alert_title))},
+               text = {
+                   Text(
+                       text = stringResource(R.string.delete_alert_desc),
+                       textAlign = TextAlign.Center
+
+                   )
+               },
+               dismissButton = {
+                   TextButton(onClick = { deleteConfirmation = false }) {
+                   Text(text = stringResource(R.string.alert_cancel))
+               }},
+               confirmButton = {
+                   TextButton(onClick = {
+                       deleteConfirmation = false
+                       coroutineScope.launch {
+                           detailsViewModel.deleteItem()
+                           navigateBack()
+                       }
+                   }
+                   ) {
+                       Text(text = stringResource(R.string.delete_alert_confirm))
+                   }
+               },
+               containerColor = colorResource(R.color.alert_red),
+           )
+       }
    }
 }
 
@@ -262,14 +301,19 @@ fun CharacterDetailsInfo(
             ) {
                 Column(modifier = Modifier
                     .width(95.dp)
-                    .background(color = colorResource(R.color.background_red), shape = RoundedCornerShape((20.dp)))     //https://codingwithrashid.com/how-to-create-column-with-rounded-corners-in-jetpack-compose/
+                    .background(
+                        color = colorResource(R.color.background_red),
+                        shape = RoundedCornerShape((20.dp))
+                    )     //https://codingwithrashid.com/how-to-create-column-with-rounded-corners-in-jetpack-compose/
                     ) {     //https://stackoverflow.com/questions/67681416/jetpack-compose-decrease-height-of-textfield
                     //STR
                     Text(
                         text = stringResource(R.string.chara_str_label),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                     Text(
                         text = characterModel.str.toString(),
@@ -291,20 +335,27 @@ fun CharacterDetailsInfo(
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight= FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
                 Column(
                     modifier = Modifier
                         .width(95.dp)
-                        .background(color = colorResource(R.color.background_red), shape = RoundedCornerShape((20.dp)))
+                        .background(
+                            color = colorResource(R.color.background_red),
+                            shape = RoundedCornerShape((20.dp))
+                        )
                 ) {
                     //DEX
                     Text(
                         text = stringResource(R.string.chara_dex_label),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                     Text(
                         text = characterModel.dex.toString(),
@@ -326,20 +377,27 @@ fun CharacterDetailsInfo(
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight= FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
                 Column(
                     modifier = Modifier
                         .width(95.dp)
-                        .background(color = colorResource(R.color.background_red), shape = RoundedCornerShape((20.dp)))
+                        .background(
+                            color = colorResource(R.color.background_red),
+                            shape = RoundedCornerShape((20.dp))
+                        )
                 ) {
                     //CON
                     Text(
                         text = stringResource(R.string.chara_con_label),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                     Text(
                         text = characterModel.con.toString(),
@@ -361,7 +419,9 @@ fun CharacterDetailsInfo(
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight= FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
             }
@@ -373,14 +433,19 @@ fun CharacterDetailsInfo(
                 Column(
                     modifier = Modifier
                         .width(95.dp)
-                        .background(color = colorResource(R.color.background_red), shape = RoundedCornerShape((20.dp)))
+                        .background(
+                            color = colorResource(R.color.background_red),
+                            shape = RoundedCornerShape((20.dp))
+                        )
                 ) {
                     //INT
                     Text(
                         text = stringResource(R.string.chara_int_label),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                     Text(
                         text = characterModel.int.toString(),
@@ -402,20 +467,27 @@ fun CharacterDetailsInfo(
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight= FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
                 Column(
                     modifier = Modifier
                         .width(95.dp)
-                        .background(color = colorResource(R.color.background_red), shape = RoundedCornerShape((20.dp)))
+                        .background(
+                            color = colorResource(R.color.background_red),
+                            shape = RoundedCornerShape((20.dp))
+                        )
                 ) {
                     //WIS
                     Text(
                         text = stringResource(R.string.chara_wis_label),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                     Text(
                         text = characterModel.wis.toString(),
@@ -437,20 +509,27 @@ fun CharacterDetailsInfo(
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight= FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
                 Column(
                     modifier = Modifier
                         .width(95.dp)
-                        .background(color = colorResource(R.color.background_red), shape = RoundedCornerShape((20.dp)))
+                        .background(
+                            color = colorResource(R.color.background_red),
+                            shape = RoundedCornerShape((20.dp))
+                        )
                 ) {
                     //CHA
                     Text(
                         text = stringResource(R.string.chara_cha_label),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     )
                     Text(
                         text = characterModel.cha.toString(),
@@ -472,7 +551,9 @@ fun CharacterDetailsInfo(
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight= FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
             }
