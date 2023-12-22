@@ -12,6 +12,7 @@ import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
+import kotlinx.coroutines.launch
 
 object CharacterUpdateDestination : NavigationDestination {
     override val route = "character_update"
@@ -87,10 +88,14 @@ fun CharacterUpdateScreen(
             characterUiState = viewModel.characterUiState,
             onCharacterValueChange = viewModel::updateUiState,
             onCharacterHPValueChange = viewModel::updateUiStateAndHP,
-            onSaveClick = { /*TODO*/ },
+            onSaveClick = { coroutineScope.launch{
+                viewModel.updateItem()
+                navigateBack()
+            } },
             raceOptions = raceOptions,
             bgOptions = bgOptions,
-            classOptions = classOptions
+            classOptions = classOptions,
+            isUpdate = true
         )
 
     }
