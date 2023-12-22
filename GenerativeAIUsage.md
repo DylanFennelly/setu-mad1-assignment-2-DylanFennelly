@@ -256,3 +256,119 @@ In the provided example, I set the tint parameter of the Icon to Color.White. Yo
 
 Make sure to adjust the color value in the tint parameter to match your desired color for the back arrow icon.
 ```
+
+## Generative AI Usage 3.
+
+#### Usage Overview:
+In this instance, ChatGPT was used to fix an issue with a function not triggering upon IconButton press.
+
+#### Chat log:
+```
+Me:
+The following is a Composable for an item details page. The TopAppBar has a delete button that upon clicking, should flip a boolean and trigger an alert dialog to appear. However, clickling the iconButton is not changing the boolean.
+
+The composable:
+"@Composable
+fun CharacterDetailsScreen(
+    navigateBack: () -> Unit,
+    onNavigateUp: () -> Unit,
+    canNavigateBack: Boolean = true,
+    canDelete: Boolean = true,
+    modifier: Modifier = Modifier,
+    detailsViewModel: CharacterDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
+    val uiState = detailsViewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    var deleteConfirmation by rememberSaveable { mutableStateOf(false) }
+
+   Scaffold(
+       topBar = {
+           CharacterTopAppBar(
+               title = uiState.value.characterDetails.name,
+               canNavigateBack = canNavigateBack,
+               canDelete = canDelete,
+               navigateUp = onNavigateUp,
+               onDeleteClick = {deleteConfirmation = true}
+           )
+           Text(text = "deleteConfirmation: $deleteConfirmation")
+       }
+   ) {innerPadding ->
+        CharacterDetailsBody(
+            characterDetailsUiState = uiState.value,
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+        )
+
+       if(deleteConfirmation){
+           AlertDialog(onDismissRequest = { deleteConfirmation = false }, confirmButton = { /*TODO*/ }, text = {Text("Test")})
+       }
+   }
+}"
+
+CharacterTopAppBar:
+"@Composable
+fun CharacterTopAppBar(
+    title: String,
+    canNavigateBack: Boolean,
+    canDelete: Boolean,         //used to display delete icon
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    navigateUp: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
+) {
+    CenterAlignedTopAppBar(
+        title = { Text(title) },
+        modifier = modifier,
+        scrollBehavior = scrollBehavior,
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back_button),
+                        tint = Color.White      //Generative AI Usage 2.
+                    )
+                }
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            //https://developer.android.com/jetpack/compose/components/app-bars
+            containerColor = Color(android.graphics.Color.parseColor(stringResource(R.color.dnd_red))),   //https://developermemos.com/posts/using-hex-colors-compose
+            titleContentColor = Color.White
+        ),
+        actions = {
+            if (canDelete){
+                IconButton(onClick = { onDeleteClick }) {
+                    Icon(imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(R.string.delete_button),
+                        tint = Color.White
+                    )
+                }
+            }
+        }
+    )
+}"
+
+
+ChatGPT:
+The issue you're facing is in the way you're calling the onDeleteClick lambda in the CharacterTopAppBar. You need to invoke the lambda by using onDeleteClick() instead of { onDeleteClick }.
+
+Here's the corrected part of your code:
+
+kotlin
+
+actions = {
+    if (canDelete){
+        IconButton(onClick = { onDeleteClick() }) { // Corrected invocation
+            Icon(
+                imageVector = Icons.Filled.Delete,
+                contentDescription = stringResource(R.string.delete_button),
+                tint = Color.White
+            )
+        }
+    }
+}
+
+By making this change, you ensure that the onDeleteClick lambda is actually invoked when the IconButton is clicked, triggering the desired behavior in the CharacterDetailsScreen.
+```

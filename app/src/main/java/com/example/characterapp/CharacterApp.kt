@@ -8,7 +8,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -40,7 +39,8 @@ fun CharacterTopAppBar(
     canDelete: Boolean,         //used to display delete icon
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior? = null,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = { Text(title) },
@@ -64,7 +64,7 @@ fun CharacterTopAppBar(
         ),
         actions = {
             if (canDelete){
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onDeleteClick() }) {     //Generative AI Usage 3.
                     Icon(imageVector = Icons.Filled.Delete,
                         contentDescription = stringResource(R.string.delete_button),
                         tint = Color.White
