@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -25,11 +26,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -106,6 +109,7 @@ fun CharacterAddScreen(
         stringResource(R.string.class_warlock),
         stringResource(R.string.class_wizard),
     )
+    var cancelCreationConfirmation by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -114,7 +118,8 @@ fun CharacterAddScreen(
                 canNavigateBack = canNavigateBack,
                 canDelete = false,
                 canUpdate = false,
-                navigateUp = onNavigateUp
+                //navigateUp = onNavigateUp
+                navigateUp = { cancelCreationConfirmation = true }
             )
         }
     )
@@ -135,6 +140,35 @@ fun CharacterAddScreen(
                 .fillMaxWidth(),
             raceOptions = raceOptions, bgOptions = bgOptions, classOptions = classOptions
         )
+
+        if(cancelCreationConfirmation){
+            AlertDialog(
+                onDismissRequest = { cancelCreationConfirmation = false },
+                title = { Text(text = stringResource(R.string.cancel_creation_alert_title))},
+                text = {
+                    Text(
+                        text = stringResource(R.string.cancel_creation_alert_desc),
+                        textAlign = TextAlign.Center
+
+                    )
+                },
+                dismissButton = {
+                    TextButton(onClick = { cancelCreationConfirmation = false }) {
+                        Text(text = stringResource(R.string.alert_go_back))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        cancelCreationConfirmation = false
+                        onNavigateUp()
+                    }
+                    ) {
+                        Text(text = stringResource(R.string.alert_confirm))
+                    }
+                },
+                containerColor = colorResource(R.color.alert_red),
+            )
+        }
     }
 }
 
