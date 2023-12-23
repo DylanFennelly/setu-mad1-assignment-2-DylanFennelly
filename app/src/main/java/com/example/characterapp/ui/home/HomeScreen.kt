@@ -38,9 +38,11 @@ import androidx.compose.ui.unit.dp
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
+import com.example.characterapp.helpers.characterDisplayNameTruncate
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
 import com.example.characterapp.ui.theme.CharacterAppTheme
+import java.time.format.TextStyle
 
 object HomeDestination: NavigationDestination {
     override val route = "home"
@@ -147,11 +149,10 @@ fun CharacterItem(character: CharacterModel, modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(start = 8.dp, end = 8.dp, top = 8.dp)
             ) {
-                //TODO: Change font size based on length of character name
                 Text(
-                    text = character.name,
+                    text = characterDisplayNameTruncate(character.name, 72),
                     modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = characterNameFontSize(name = character.name),
                 )
                 Text(
                     text = "Level ${character.level} ${character.battleClass}",
@@ -176,6 +177,18 @@ fun CharacterItem(character: CharacterModel, modifier: Modifier = Modifier) {
                 )
             }
         }
+    }
+}
+
+//changes size of character font name depending on length of name
+@Composable
+fun characterNameFontSize(name: String): androidx.compose.ui.text.TextStyle {
+    return if (name.length < 18) {
+        MaterialTheme.typography.titleLarge
+    }else if (name.length < 45) {
+        MaterialTheme.typography.titleMedium
+    }else{      //if name length is greater than 45 characters
+        MaterialTheme.typography.titleSmall
     }
 }
 

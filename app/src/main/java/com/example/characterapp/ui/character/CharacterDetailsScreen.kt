@@ -74,7 +74,7 @@ fun CharacterDetailsScreen(
    Scaffold(
        topBar = {
            CharacterTopAppBar(
-               title = uiState.value.characterDetails.name,
+               title = stringResource(R.string.character_details_title),
                canNavigateBack = canNavigateBack,
                canDelete = canDelete,
                canUpdate = canDelete,

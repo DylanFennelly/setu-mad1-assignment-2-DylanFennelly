@@ -133,3 +133,12 @@ fun calculateHP(charLevel : String, charClass : String, conScore : String): Shor
 
     return maxHP.toShort();
 }
+
+//truncates character name to avoid excessive name displays on home screen
+fun characterDisplayNameTruncate(name: String, charLimit: Int): String {
+     return if (name.length > charLimit) {
+        name.take(charLimit) + "..."
+    } else {
+        name
+    }
+}
