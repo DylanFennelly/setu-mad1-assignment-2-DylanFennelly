@@ -13,7 +13,6 @@ import com.example.characterapp.helpers.validateLevelInput
 
 
 //ViewModel to validate and insert items in the Room database.
-//TODO: Add room database
 
 class CharacterAddViewModel(private val characterRepository: CharacterRepository): ViewModel() {
     var characterUiState by mutableStateOf(CharacterUiState())

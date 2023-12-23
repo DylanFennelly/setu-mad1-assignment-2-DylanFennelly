@@ -52,6 +52,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.helpers.calculateMod
+import com.example.characterapp.helpers.characterBackgrounds
+import com.example.characterapp.helpers.characterClasses
+import com.example.characterapp.helpers.characterRaces
 import com.example.characterapp.helpers.validateACInput
 import com.example.characterapp.helpers.validateAbilityScoreInput
 import com.example.characterapp.helpers.validateLevelInput
@@ -74,47 +77,22 @@ fun CharacterAddScreen(
     characterViewModel: CharacterAddViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ){
     val coroutineScope = rememberCoroutineScope()
-    //TODO: define elsewhere?
-    val raceOptions = listOf(
-        stringResource(R.string.race_dragonborn),
-        stringResource(R.string.race_dwarf),
-        stringResource(R.string.race_elf),
-        stringResource(R.string.race_gnome),
-        stringResource(R.string.race_halfelf),
-        stringResource(R.string.race_halforc),
-        stringResource(R.string.race_halfling),
-        stringResource(R.string.race_human),
-        stringResource(R.string.race_tiefling),
-    )
-    val bgOptions = listOf(
-        stringResource(R.string.bg_acolyte),
-        stringResource(R.string.bg_charlatan),
-        stringResource(R.string.bg_criminal),
-        stringResource(R.string.bg_entertainer),
-        stringResource(R.string.bg_folk_hero),
-        stringResource(R.string.bg_guild_artisan),
-        stringResource(R.string.bg_hermit),
-        stringResource(R.string.bg_noble),
-        stringResource(R.string.bg_outlander),
-        stringResource(R.string.bg_sage),
-        stringResource(R.string.bg_sailor),
-        stringResource(R.string.bg_solider),
-        stringResource(R.string.bg_urchin),
-    )
-    val classOptions = listOf(
-        stringResource(R.string.class_barbarian),
-        stringResource(R.string.class_bard),
-        stringResource(R.string.class_cleric),
-        stringResource(R.string.class_druid),
-        stringResource(R.string.class_fighter),
-        stringResource(R.string.class_monk),
-        stringResource(R.string.class_paladin),
-        stringResource(R.string.class_ranger),
-        stringResource(R.string.class_rouge),
-        stringResource(R.string.class_sorcerer),
-        stringResource(R.string.class_warlock),
-        stringResource(R.string.class_wizard),
-    )
+
+    val raceOptions = mutableListOf<String>()
+    characterRaces.forEach{ race ->
+        raceOptions.add( stringResource(id = race))
+    }
+
+    val bgOptions = mutableListOf<String>()
+    characterBackgrounds.forEach{ bg ->
+        bgOptions.add( stringResource(id = bg))
+    }
+
+    val classOptions = mutableListOf<String>()
+    characterClasses.forEach{ bC ->
+        classOptions.add( stringResource(id = bC))
+    }
+
     var cancelCreationConfirmation by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(

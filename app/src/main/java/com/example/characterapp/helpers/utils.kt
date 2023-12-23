@@ -1,10 +1,57 @@
 package com.example.characterapp.helpers
 
+import com.example.characterapp.R
 import kotlin.math.floor
 
 val levelPattern = Regex("\\b([1-9]|1[0-9]|20)\\b")       //allows numbers between 1 and 20 - https://www.regextutorial.org/regex-for-numbers-and-ranges.php
 val abilityScorePattern = Regex("\\b([1-9]|[1|2][0-9]|30)\\b")       //allows numbers between 1 and 30
 val acPattern = Regex("\\b([1-9]|[1|2|3|4][0-9]|50)\\b")       //allows numbers between 1 and 50 (maximum achievable AC is 49)
+
+
+//lists of character races, backgrounds and classes for easier reuse
+val characterRaces = listOf(
+    R.string.race_dragonborn,
+    R.string.race_dwarf,
+    R.string.race_elf,
+    R.string.race_gnome,
+    R.string.race_halfelf,
+    R.string.race_halforc,
+    R.string.race_halfling,
+    R.string.race_human,
+    R.string.race_tiefling,
+)
+
+val characterBackgrounds = listOf(
+    R.string.bg_acolyte,
+    R.string.bg_charlatan,
+    R.string.bg_criminal,
+    R.string.bg_entertainer,
+    R.string.bg_folk_hero,
+    R.string.bg_guild_artisan,
+    R.string.bg_hermit,
+    R.string.bg_noble,
+    R.string.bg_outlander,
+    R.string.bg_sage,
+    R.string.bg_sailor,
+    R.string.bg_solider,
+    R.string.bg_urchin,
+)
+
+val characterClasses = listOf(
+    R.string.class_barbarian,
+    R.string.class_bard,
+    R.string.class_cleric,
+    R.string.class_druid,
+    R.string.class_fighter,
+    R.string.class_monk,
+    R.string.class_paladin,
+    R.string.class_ranger,
+    R.string.class_rouge,
+    R.string.class_sorcerer,
+    R.string.class_warlock,
+    R.string.class_wizard,
+)
+
 //Validate character level input in create or edit screens
 fun validateLevelInput(charLevel: String): Boolean{
     return charLevel.isNotEmpty() && levelPattern.matches(charLevel)
