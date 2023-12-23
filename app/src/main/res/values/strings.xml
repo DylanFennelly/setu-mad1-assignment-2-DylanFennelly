@@ -13,8 +13,8 @@
     <string name="chara_bg_dropdown_label">Background</string>
     <string name="chara_class_dropdown_label">Class</string>
     <string name="chara_level_label">Level</string>
-    <string name="chara_level_desc">Select a level between 1 and 20</string>
-    <string name="chara_level_error">Error: Level must be between 1 and 20</string>
+    <string name="chara_level_desc">Between 1 &amp; 20</string>
+    <string name="chara_level_error">Error: Must be between 1 &amp; 20</string>
     <string name="ability_scores_title">Ability Scores</string>
     <string name="ability_scores_desc">Each ability score is between 1–30</string>
     <string name="ability_mod_label">Modifier</string>

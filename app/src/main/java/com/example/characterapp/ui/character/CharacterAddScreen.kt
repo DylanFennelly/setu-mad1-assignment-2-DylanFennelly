@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,8 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -34,14 +37,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
@@ -233,160 +239,304 @@ fun CharacterInputForm(
     var classExpanded by remember { mutableStateOf(false)}
 
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ){
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.faint_red))
+    ) {
+        Column(
+            modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+        ) {
+            Row {
+                Text(
+                    text = stringResource(R.string.character_details_title),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             //Name
-            OutlinedTextField(      //https://alexzh.com/jetpack-compose-dropdownmenu/
-                value = characterDetails.name,
-                onValueChange = { onValueChange(characterDetails.copy(name = it)) },
-                label = { Text(stringResource(R.string.chara_name_label)) },
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                enabled = enabled,
-                singleLine = true
-            )
-
-
-        //Race
-        //https://alexzh.com/jetpack-compose-dropdownmenu/
-            ExposedDropdownMenuBox(
-                expanded = raceExpanded,
-                onExpandedChange = {
-                    raceExpanded = !raceExpanded // flip state of menu open/closed
-                }
             ) {
-                OutlinedTextField(
+                Text(
+                    text = stringResource(R.string.chara_name_label),
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier
-                        .menuAnchor() // defines where the dropdown menu should appear - https://semicolonspace.com/jetpack-compose-dropdown-menu-material3/
-                        .fillMaxWidth(),
-                    readOnly = true,
-                    value = characterDetails.race,
-                    onValueChange = {},
-                    label = { Text(stringResource(R.string.chara_race_dropdown_label)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = raceExpanded) },
+                        .padding(end = 8.dp)
+                        .align(Alignment.CenterVertically),
                 )
-
-                ExposedDropdownMenu(
-                    expanded = raceExpanded,
-                    onDismissRequest = {
-                        raceExpanded = false        //when menu is dismissed, close menu
-                    },
-                ) {
-                    // menu items
-                    raceOptions.forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                onValueChange(characterDetails.copy(race=option))
-                                raceExpanded = false
-                            }
-                        )
-                    }
-                }
+                Spacer(Modifier.weight(0.25f))
+                OutlinedTextField(      //https://alexzh.com/jetpack-compose-dropdownmenu/
+                    value = characterDetails.name,
+                    onValueChange = { onValueChange(characterDetails.copy(name = it)) },
+                    label = { Text(stringResource(R.string.chara_name_label)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    enabled = enabled,
+                    singleLine = true
+                )
             }
 
-        //background
-            ExposedDropdownMenuBox(
-                expanded = bgExpanded,
-                onExpandedChange = {
-                    bgExpanded = !bgExpanded
-                }
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth(),
-                    readOnly = true,
-                    value = characterDetails.background,
-                    onValueChange = {},
-                    label = { Text(stringResource(R.string.chara_bg_dropdown_label)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = bgExpanded) },
-                )
 
-                ExposedDropdownMenu(
-                    expanded = bgExpanded,
-                    onDismissRequest = {
-                        bgExpanded = false        //when menu is dismissed, close menu
-                    },
-                ) {
-                    bgOptions.forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                onValueChange(characterDetails.copy(background=option))
-                                bgExpanded = false
-                            }
-                        )
-                    }
-                }
-            }
-
-        //class
-            ExposedDropdownMenuBox(
-                expanded = classExpanded,
-                onExpandedChange = {
-                    classExpanded = !classExpanded
-                }
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth(),
-                    readOnly = true,
-                    value = characterDetails.battleClass,
-                    onValueChange = {},
-                    label = { Text(stringResource(R.string.chara_class_dropdown_label)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = classExpanded) },
-                )
-
-                ExposedDropdownMenu(
-                    expanded = classExpanded,
-                    onDismissRequest = {
-                        classExpanded = false        //when menu is dismissed, close menu
-                    },
-                ) {
-                    classOptions.forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                onHPValueChange(characterDetails.copy(battleClass = option))
-                                classExpanded = false
-                            }
-                        )
-                    }
-                }
-            }
-
-        //Level
-            OutlinedTextField(
-                value = characterDetails.level,
-                onValueChange = { onHPValueChange(characterDetails.copy(level = it)) },
-                label = { Text(stringResource(R.string.chara_level_label)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            //Race
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                enabled = enabled,
-                singleLine = true,
-                isError = !validateLevelInput(characterDetails.level),
-                supportingText = {                                                  //https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlinedtextfield-in-jetpack-compose
-                    if (!validateLevelInput(characterDetails.level)) {
+            ) {
+                Column(modifier = modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.chara_race_dropdown_label),
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier
+                    )
+                    //https://alexzh.com/jetpack-compose-dropdownmenu/
+                    ExposedDropdownMenuBox(
+                        expanded = raceExpanded,
+                        onExpandedChange = {
+                            raceExpanded = !raceExpanded // flip state of menu open/closed
+                        },
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .menuAnchor() // defines where the dropdown menu should appear - https://semicolonspace.com/jetpack-compose-dropdown-menu-material3/
+                                ,
+                            readOnly = true,
+                            value = characterDetails.race,
+                            onValueChange = {},
+                            label = { Text(stringResource(R.string.chara_race_dropdown_label), fontSize = 11.sp) },     //https://stackoverflow.com/questions/72901072/how-to-change-the-input-font-size-in-textfield-of-android-jetpack-compose
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = raceExpanded) },
+                            textStyle = TextStyle.Default.copy(fontSize = 15.sp),
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = raceExpanded,
+                            onDismissRequest = {
+                                raceExpanded = false        //when menu is dismissed, close menu
+                            },
+
+                        ) {
+                            // menu items
+                            raceOptions.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option) },
+                                    onClick = {
+                                        onValueChange(characterDetails.copy(race = option))
+                                        raceExpanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.weight(0.25f))
+                Column(modifier = modifier.weight(1f), horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = stringResource(R.string.chara_bg_dropdown_label),
+                        textAlign = TextAlign.Right,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    //background
+                    ExposedDropdownMenuBox(
+                        expanded = bgExpanded,
+                        onExpandedChange = {
+                            bgExpanded = !bgExpanded
+                        },
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .menuAnchor(),
+                            readOnly = true,
+                            value = characterDetails.background,
+                            onValueChange = {},
+                            label = { Text(stringResource(R.string.chara_bg_dropdown_label), fontSize = 11.sp) },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = bgExpanded) },
+                            textStyle = TextStyle.Default.copy(fontSize = 15.sp)
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = bgExpanded,
+                            onDismissRequest = {
+                                bgExpanded = false        //when menu is dismissed, close menu
+                            },
+                        ) {
+                            bgOptions.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option) },
+                                    onClick = {
+                                        onValueChange(characterDetails.copy(background = option))
+                                        bgExpanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column(modifier = modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.chara_class_dropdown_label),
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier
+                    )
+                    //class
+                    ExposedDropdownMenuBox(
+                        expanded = classExpanded,
+                        onExpandedChange = {
+                            classExpanded = !classExpanded
+                        }
+                    ) {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .menuAnchor()
+                                .fillMaxWidth(),
+                            readOnly = true,
+                            value = characterDetails.battleClass,
+                            onValueChange = {},
+                            label = { Text(stringResource(R.string.chara_class_dropdown_label)) },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = classExpanded) },
+                        )
+
+                        ExposedDropdownMenu(
+                            expanded = classExpanded,
+                            onDismissRequest = {
+                                classExpanded = false        //when menu is dismissed, close menu
+                            },
+                        ) {
+                            classOptions.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option) },
+                                    onClick = {
+                                        onHPValueChange(characterDetails.copy(battleClass = option))
+                                        classExpanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.weight(0.25f))
+                Column(modifier = modifier.weight(0.75f)) {
+                    Text(
+                        text = stringResource(R.string.chara_level_label),
+                        textAlign = TextAlign.Right,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    //Level
+                    OutlinedTextField(
+                        value = characterDetails.level,
+                        onValueChange = { onHPValueChange(characterDetails.copy(level = it)) },
+                        label = { Text(stringResource(R.string.chara_level_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateLevelInput(characterDetails.level),
+                        supportingText = {                                                  //https://stackoverflow.com/questions/68573228/how-to-show-error-message-in-outlinedtextfield-in-jetpack-compose
+                            if (!validateLevelInput(characterDetails.level)) {
+                                Text(
+                                    text = stringResource(R.string.chara_level_error),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            } else {
+                                Text(text = stringResource(R.string.chara_level_desc))
+                            }
+                        },
+                        trailingIcon = {
+                            if (!validateLevelInput(characterDetails.level)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,         //for some reason, the Error icon does not exist
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.faint_red))
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+        ) {
+            Row {
+                Text(
+                    text = stringResource(R.string.character_stats_title),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            //HP and AC
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Column(modifier = Modifier.width(105.dp)) {
+                    Text(
+                        text = stringResource(R.string.chara_hp_label),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    if (validateLevelInput(characterDetails.level) && validateAbilityScoreInput(
+                            characterDetails.con
+                        ) && characterDetails.battleClass != ""
+                    ) {
                         Text(
-                            text = stringResource(R.string.chara_level_error),
-                            color = MaterialTheme.colorScheme.error
+                            text = characterDetails.maxHP.toString(),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     } else {
-                        Text(text = stringResource(R.string.chara_level_desc))
-                    }
-                },
-                trailingIcon = {
-                    if (!validateLevelInput(characterDetails.level)) {
-                        Icon(
-                            imageVector = Icons.Filled.Warning,         //for some reason, the Error icon does not exist
-                            contentDescription = "Error",
-                            tint = MaterialTheme.colorScheme.error
+                        Text(
+                            text = stringResource(R.string.chara_hp_na_label),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
-            )
+
+                Column(modifier = Modifier.width(105.dp)) {
+                    OutlinedTextField(
+                        value = characterDetails.ac,
+                        onValueChange = { onValueChange(characterDetails.copy(ac = it)) },
+                        label = { Text(stringResource(R.string.chara_ac_label)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = enabled,
+                        singleLine = true,
+                        isError = !validateACInput(characterDetails.ac),
+                        trailingIcon = {
+                            if (!validateACInput(characterDetails.ac)) {
+                                Icon(
+                                    imageVector = Icons.Filled.Warning,
+                                    contentDescription = "Error",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        modifier = Modifier.width(105.dp)
+                    )
+                }
+            }
 
             Text(
                 text = stringResource(R.string.ability_scores_title),
@@ -401,7 +551,7 @@ fun CharacterInputForm(
                 modifier = Modifier.fillMaxWidth()
             )
 
-        //Ability scores (STR, DEX, CON)
+            //Ability scores (STR, DEX, CON)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -427,7 +577,7 @@ fun CharacterInputForm(
                             }
                         },
 
-                    )
+                        )
                     Text(
                         text = stringResource(R.string.ability_mod_label),
                         textAlign = TextAlign.Center,
@@ -515,7 +665,7 @@ fun CharacterInputForm(
             }
 
 
-        //Ability scores (INT, WIS, CHA)
+            //Ability scores (INT, WIS, CHA)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -628,60 +778,9 @@ fun CharacterInputForm(
                 }
             }
 
-        //HP and AC
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ){
-                Column(modifier = Modifier.width(105.dp)) {
-                    Text(
-                        text = stringResource(R.string.chara_hp_label),
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    if(validateLevelInput(characterDetails.level) && validateAbilityScoreInput(characterDetails.con) && characterDetails.battleClass != "") {
-                        Text(
-                            text = characterDetails.maxHP.toString(),
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }else{
-                        Text(
-                            text = stringResource(R.string.chara_hp_na_label),
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
-
-                Column(modifier = Modifier.width(105.dp)) {
-                    OutlinedTextField(
-                        value = characterDetails.ac,
-                        onValueChange = { onValueChange(characterDetails.copy(ac = it)) },
-                        label = { Text(stringResource(R.string.chara_ac_label)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        enabled = enabled,
-                        singleLine = true,
-                        isError = !validateACInput(characterDetails.ac),
-                        trailingIcon = {
-                            if (!validateACInput(characterDetails.ac)) {
-                                Icon(
-                                    imageVector = Icons.Filled.Warning,
-                                    contentDescription = "Error",
-                                    tint = MaterialTheme.colorScheme.error
-                                )
-                            }
-                        },
-                        modifier = Modifier.width(105.dp)
-                    )
-                }
-            }
-
+        }
+    }
     }
 }
 
