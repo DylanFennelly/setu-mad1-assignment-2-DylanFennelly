@@ -13,43 +13,48 @@ import com.example.characterapp.helpers.validateLevelInput
 
 
 //ViewModel to validate and insert items in the Room database.
-//TODO: Add room database
 
-class CharacterAddViewModel(private val characterRepository: CharacterRepository): ViewModel() {
+class CharacterAddViewModel(private val characterRepository: CharacterRepository) : ViewModel() {
     var characterUiState by mutableStateOf(CharacterUiState())
         private set
 
-    fun updateUiState(characterDetails: CharacterDetails){
-        characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+    fun updateUiState(characterDetails: CharacterDetails) {
+        characterUiState =
+            CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
 
     }
 
 
     //Alternate version of updateUiState that calculates HP -> only calculateHP when relevant values are updated
-    fun updateUiStateAndHP(characterDetails: CharacterDetails){
-        characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
-        characterDetails.maxHP = calculateHP(characterDetails.level, characterDetails.battleClass, characterDetails.con).toString()
+    fun updateUiStateAndHP(characterDetails: CharacterDetails) {
+        characterUiState =
+            CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+        characterDetails.maxHP = calculateHP(
+            characterDetails.level,
+            characterDetails.battleClass,
+            characterDetails.con
+        ).toString()
     }
 
     private fun validateInput(uiState: CharacterDetails = characterUiState.characterDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() &&
-            race.isNotBlank() &&
-            battleClass.isNotBlank() &&
-            background.isNotBlank() &&
-            validateLevelInput(level) &&
-            validateAbilityScoreInput(str) &&
-            validateAbilityScoreInput(dex) &&
-            validateAbilityScoreInput(con) &&
-            validateAbilityScoreInput(int) &&
-            validateAbilityScoreInput(wis) &&
-            validateAbilityScoreInput(cha) &&
-            validateACInput(ac)
+                    race.isNotBlank() &&
+                    battleClass.isNotBlank() &&
+                    background.isNotBlank() &&
+                    validateLevelInput(level) &&
+                    validateAbilityScoreInput(str) &&
+                    validateAbilityScoreInput(dex) &&
+                    validateAbilityScoreInput(con) &&
+                    validateAbilityScoreInput(int) &&
+                    validateAbilityScoreInput(wis) &&
+                    validateAbilityScoreInput(cha) &&
+                    validateACInput(ac)
         }
     }
 
-    suspend fun saveCharacter(){
-        if (validateInput()){
+    suspend fun saveCharacter() {
+        if (validateInput()) {
             characterRepository.insertCharacter(characterUiState.characterDetails.toCharacter())
         }
     }
@@ -100,10 +105,11 @@ fun CharacterDetails.toCharacter(): CharacterModel = CharacterModel(
 
 
 //Extension function to convert [CharacterModel] to [CharacterUiState]
-fun CharacterModel.toCharacterUiState(isEntryValid: Boolean = false): CharacterUiState = CharacterUiState(
-    characterDetails = this.toCharacterDetails(),
-    isEntryValid = isEntryValid
-)
+fun CharacterModel.toCharacterUiState(isEntryValid: Boolean = false): CharacterUiState =
+    CharacterUiState(
+        characterDetails = this.toCharacterDetails(),
+        isEntryValid = isEntryValid
+    )
 
 //Extension function to convert [CharacterModel] to [CharacterDetails]
 

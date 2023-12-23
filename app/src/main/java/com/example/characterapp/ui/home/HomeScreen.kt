@@ -38,11 +38,12 @@ import androidx.compose.ui.unit.dp
 import com.example.characterapp.CharacterTopAppBar
 import com.example.characterapp.R
 import com.example.characterapp.data.CharacterModel
+import com.example.characterapp.helpers.characterDisplayNameTruncate
 import com.example.characterapp.ui.AppViewModelProvider
 import com.example.characterapp.ui.navigation.NavigationDestination
 import com.example.characterapp.ui.theme.CharacterAppTheme
 
-object HomeDestination: NavigationDestination {
+object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.home_title
 
@@ -63,14 +64,14 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-             CharacterTopAppBar(
-                 title = stringResource(HomeDestination.titleRes),
-                 canNavigateBack = false,
-                 canDelete = false,
-                 canUpdate = false,
-                 scrollBehavior = scrollBehavior,
-                 modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-             )
+            CharacterTopAppBar(
+                title = stringResource(HomeDestination.titleRes),
+                canNavigateBack = false,
+                canDelete = false,
+                canUpdate = false,
+                scrollBehavior = scrollBehavior,
+                modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            )
         },
 
         floatingActionButton = {
@@ -100,7 +101,7 @@ fun HomeScreen(
 @Composable
 fun HomeBody(
     characterList: List<CharacterModel>, onItemClick: (Long) -> Unit, modifier: Modifier = Modifier
-){
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -114,19 +115,19 @@ fun HomeBody(
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
-            CharacterList(characters = characterList, onTodoClick = { onItemClick(it.id)})
+            CharacterList(characters = characterList, onCharacterClick = { onItemClick(it.id) })
         }
     }
 }
 
 @Composable
-fun CharacterList(characters: List<CharacterModel>, onTodoClick: (CharacterModel) -> Unit) {
+fun CharacterList(characters: List<CharacterModel>, onCharacterClick: (CharacterModel) -> Unit) {
     LazyColumn {
         items(characters) { character ->
             CharacterItem(character = character,
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onTodoClick(character) })
+                    .clickable { onCharacterClick(character) })
         }
     }
 }
@@ -147,18 +148,17 @@ fun CharacterItem(character: CharacterModel, modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(start = 8.dp, end = 8.dp, top = 8.dp)
             ) {
-                //TODO: Change font size based on length of character name
                 Text(
-                    text = character.name,
+                    text = characterDisplayNameTruncate(character.name, 72),
                     modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = characterNameFontSize(name = character.name),
                 )
                 Text(
                     text = "Level ${character.level} ${character.battleClass}",
                     modifier = Modifier.align(Alignment.CenterVertically),      //https://stackoverflow.com/questions/70708107/how-to-make-text-centered-vertically-in-android-compose
                     style = MaterialTheme.typography.titleMedium,
 
-                )
+                    )
             }
             Row(
                 modifier = Modifier
@@ -179,9 +179,21 @@ fun CharacterItem(character: CharacterModel, modifier: Modifier = Modifier) {
     }
 }
 
+//changes size of character font name depending on length of name
+@Composable
+fun characterNameFontSize(name: String): androidx.compose.ui.text.TextStyle {
+    return if (name.length < 18) {
+        MaterialTheme.typography.titleLarge
+    } else if (name.length < 45) {
+        MaterialTheme.typography.titleMedium
+    } else {      //if name length is greater than 45 characters
+        MaterialTheme.typography.titleSmall
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun CharacterItemPreview(){
+fun CharacterItemPreview() {
     CharacterAppTheme {
         CharacterItem(
             CharacterModel(

@@ -9,13 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class CharacterDetailsViewModel(
     savedStateHandle: SavedStateHandle,
     private val characterRepository: CharacterRepository
 ) : ViewModel() {
-    private val characterId: Long = checkNotNull(savedStateHandle[CharacterDetailsDestination.characterIdArg])
+    private val characterId: Long =
+        checkNotNull(savedStateHandle[CharacterDetailsDestination.characterIdArg])
 
     val uiState: StateFlow<CharacterDetailsUiState> =
         characterRepository.getCharacterStream(characterId)

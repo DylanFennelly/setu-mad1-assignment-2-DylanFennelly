@@ -24,7 +24,7 @@ import com.example.characterapp.ui.navigation.CharacterNavHost
  * Top level composable that represents screens for the application.
  */
 @Composable
-fun CharacterApp(navController: NavHostController = rememberNavController()){
+fun CharacterApp(navController: NavHostController = rememberNavController()) {
     CharacterNavHost(navController = navController)
 }
 
@@ -66,17 +66,19 @@ fun CharacterTopAppBar(
             titleContentColor = Color.White
         ),
         actions = {
-            if (canDelete){
+            if (canDelete) {
                 IconButton(onClick = { onDeleteClick() }) {     //Generative AI Usage 3.
-                    Icon(imageVector = Icons.Filled.Delete,
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
                         contentDescription = stringResource(R.string.delete_button),
                         tint = Color.White
                     )
                 }
             }
-            if (canUpdate){
+            if (canUpdate) {
                 IconButton(onClick = { onUpdateClick() }) {     //Generative AI Usage 3.
-                    Icon(imageVector = Icons.Filled.Edit,
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
                         contentDescription = stringResource(R.string.update_button),
                         tint = Color.White
                     )

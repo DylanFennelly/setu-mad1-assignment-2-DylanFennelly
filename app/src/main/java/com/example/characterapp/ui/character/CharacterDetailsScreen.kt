@@ -29,7 +29,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -71,19 +70,19 @@ fun CharacterDetailsScreen(
     val coroutineScope = rememberCoroutineScope()
     var deleteConfirmation by rememberSaveable { mutableStateOf(false) }
 
-   Scaffold(
-       topBar = {
-           CharacterTopAppBar(
-               title = uiState.value.characterDetails.name,
-               canNavigateBack = canNavigateBack,
-               canDelete = canDelete,
-               canUpdate = canDelete,
-               navigateUp = onNavigateUp,
-               onDeleteClick = {deleteConfirmation = true},
-               onUpdateClick = {navigateToUpdateCharacter(uiState.value.characterDetails.id)}
-           )
-       }
-   ) {innerPadding ->
+    Scaffold(
+        topBar = {
+            CharacterTopAppBar(
+                title = stringResource(R.string.character_details_title),
+                canNavigateBack = canNavigateBack,
+                canDelete = canDelete,
+                canUpdate = canUpdate,
+                navigateUp = onNavigateUp,
+                onDeleteClick = { deleteConfirmation = true },
+                onUpdateClick = { navigateToUpdateCharacter(uiState.value.characterDetails.id) }
+            )
+        }
+    ) { innerPadding ->
         CharacterDetailsBody(
             characterDetailsUiState = uiState.value,
             modifier = Modifier
@@ -91,44 +90,45 @@ fun CharacterDetailsScreen(
                 .verticalScroll(rememberScrollState())
         )
 
-       if(deleteConfirmation){
-           AlertDialog(
-               onDismissRequest = { deleteConfirmation = false },
-               title = { Text(text = stringResource(R.string.delete_alert_title))},
-               text = {
-                   Text(
-                       text = stringResource(R.string.delete_alert_desc),
-                       textAlign = TextAlign.Center
+        if (deleteConfirmation) {
+            AlertDialog(
+                onDismissRequest = { deleteConfirmation = false },
+                title = { Text(text = stringResource(R.string.delete_alert_title)) },
+                text = {
+                    Text(
+                        text = stringResource(R.string.delete_alert_desc),
+                        textAlign = TextAlign.Center
 
-                   )
-               },
-               dismissButton = {
-                   TextButton(onClick = { deleteConfirmation = false }) {
-                   Text(text = stringResource(R.string.alert_cancel))
-               }},
-               confirmButton = {
-                   TextButton(onClick = {
-                       deleteConfirmation = false
-                       coroutineScope.launch {
-                           detailsViewModel.deleteItem()
-                           navigateBack()
-                       }
-                   }
-                   ) {
-                       Text(text = stringResource(R.string.delete_alert_confirm))
-                   }
-               },
-               containerColor = colorResource(R.color.alert_red),
-           )
-       }
-   }
+                    )
+                },
+                dismissButton = {
+                    TextButton(onClick = { deleteConfirmation = false }) {
+                        Text(text = stringResource(R.string.alert_cancel))
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        deleteConfirmation = false
+                        coroutineScope.launch {
+                            detailsViewModel.deleteItem()
+                            navigateBack()
+                        }
+                    }
+                    ) {
+                        Text(text = stringResource(R.string.delete_alert_confirm))
+                    }
+                },
+                containerColor = colorResource(R.color.alert_red),
+            )
+        }
+    }
 }
 
 @Composable
 private fun CharacterDetailsBody(
     characterDetailsUiState: CharacterDetailsUiState,
     modifier: Modifier = Modifier
-){
+) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
@@ -144,12 +144,12 @@ private fun CharacterDetailsBody(
 @Composable
 fun CharacterDetailsInfo(
     characterModel: CharacterModel, modifier: Modifier = Modifier
-){
+) {
     //Character Details (name, race, background, class, level)
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.faint_red))
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,13 +177,13 @@ fun CharacterDetailsInfo(
                 Spacer(Modifier.weight(1f))
                 Text(
                     text = characterModel.name,
-                    fontWeight= FontWeight.Bold,
+                    fontWeight = FontWeight.Bold,
                 )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Column() {
+                Column {
                     Text(
                         text = stringResource(R.string.chara_race_dropdown_label),
                         style = MaterialTheme.typography.labelMedium,
@@ -191,13 +191,13 @@ fun CharacterDetailsInfo(
                     )
                     Text(
                         text = characterModel.race,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                     )
                 }
                 Spacer(Modifier.weight(1f))
                 Column(
                     horizontalAlignment = Alignment.End
-                ){
+                ) {
                     Text(
                         text = stringResource(R.string.chara_bg_dropdown_label),
                         textAlign = TextAlign.Right,
@@ -205,14 +205,14 @@ fun CharacterDetailsInfo(
                     )
                     Text(
                         text = characterModel.background,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                     )
                 }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Column() {
+                Column {
                     Text(
                         text = stringResource(R.string.chara_class_dropdown_label),
                         style = MaterialTheme.typography.labelMedium,
@@ -220,13 +220,13 @@ fun CharacterDetailsInfo(
                     )
                     Text(
                         text = characterModel.battleClass,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                     )
                 }
                 Spacer(Modifier.weight(1f))
                 Column(
                     horizontalAlignment = Alignment.End
-                ){
+                ) {
                     Text(
                         text = stringResource(R.string.chara_level_label),
                         textAlign = TextAlign.Right,
@@ -234,7 +234,7 @@ fun CharacterDetailsInfo(
                     )
                     Text(
                         text = characterModel.level.toString(),
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                     )
                 }
             }
@@ -275,7 +275,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.maxHP.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -292,7 +292,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.ac.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -303,13 +303,14 @@ fun CharacterDetailsInfo(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Column(modifier = Modifier
-                    .width(95.dp)
-                    .background(
-                        color = colorResource(R.color.background_red),
-                        shape = RoundedCornerShape((20.dp))
-                    )     //https://codingwithrashid.com/how-to-create-column-with-rounded-corners-in-jetpack-compose/
-                    ) {     //https://stackoverflow.com/questions/67681416/jetpack-compose-decrease-height-of-textfield
+                Column(
+                    modifier = Modifier
+                        .width(95.dp)
+                        .background(
+                            color = colorResource(R.color.background_red),
+                            shape = RoundedCornerShape((20.dp))
+                        )     //https://codingwithrashid.com/how-to-create-column-with-rounded-corners-in-jetpack-compose/
+                ) {     //https://stackoverflow.com/questions/67681416/jetpack-compose-decrease-height-of-textfield
                     //STR
                     Text(
                         text = stringResource(R.string.chara_str_label),
@@ -323,7 +324,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.str.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -338,7 +339,7 @@ fun CharacterDetailsInfo(
                         text = calculateMod(characterModel.str.toString()),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
@@ -365,7 +366,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.dex.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -380,7 +381,7 @@ fun CharacterDetailsInfo(
                         text = calculateMod(characterModel.dex.toString()),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
@@ -407,7 +408,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.con.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -422,7 +423,7 @@ fun CharacterDetailsInfo(
                         text = calculateMod(characterModel.con.toString()),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
@@ -455,7 +456,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.int.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -470,7 +471,7 @@ fun CharacterDetailsInfo(
                         text = calculateMod(characterModel.int.toString()),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
@@ -497,7 +498,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.wis.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -512,7 +513,7 @@ fun CharacterDetailsInfo(
                         text = calculateMod(characterModel.wis.toString()),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
@@ -539,7 +540,7 @@ fun CharacterDetailsInfo(
                         text = characterModel.cha.toString(),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp),
@@ -554,7 +555,7 @@ fun CharacterDetailsInfo(
                         text = calculateMod(characterModel.cha.toString()),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleMedium,
-                        fontWeight= FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)

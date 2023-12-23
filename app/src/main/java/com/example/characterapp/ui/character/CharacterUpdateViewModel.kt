@@ -22,7 +22,8 @@ class CharacterUpdateViewModel(
     var characterUiState by mutableStateOf(CharacterUiState())
         private set
 
-    private val characterId: Long = checkNotNull(savedStateHandle[CharacterUpdateDestination.characterIdArg])
+    private val characterId: Long =
+        checkNotNull(savedStateHandle[CharacterUpdateDestination.characterIdArg])
 
     init {
         viewModelScope.launch {
@@ -37,28 +38,36 @@ class CharacterUpdateViewModel(
     private fun validateInput(uiState: CharacterDetails = characterUiState.characterDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() &&
-            race.isNotBlank() &&
-            battleClass.isNotBlank() &&
-            background.isNotBlank() &&
-            validateLevelInput(level) &&
-            validateAbilityScoreInput(str) &&
-            validateAbilityScoreInput(dex) &&
-            validateAbilityScoreInput(con) &&
-            validateAbilityScoreInput(int) &&
-            validateAbilityScoreInput(wis) &&
-            validateAbilityScoreInput(cha) &&
-            validateACInput(ac)
+                    race.isNotBlank() &&
+                    battleClass.isNotBlank() &&
+                    background.isNotBlank() &&
+                    validateLevelInput(level) &&
+                    validateAbilityScoreInput(str) &&
+                    validateAbilityScoreInput(dex) &&
+                    validateAbilityScoreInput(con) &&
+                    validateAbilityScoreInput(int) &&
+                    validateAbilityScoreInput(wis) &&
+                    validateAbilityScoreInput(cha) &&
+                    validateACInput(ac)
         }
     }
 
     fun updateUiState(characterDetails: CharacterDetails) {
         characterUiState =
-            CharacterUiState(characterDetails = characterDetails, isEntryValid = validateInput(characterDetails))
+            CharacterUiState(
+                characterDetails = characterDetails,
+                isEntryValid = validateInput(characterDetails)
+            )
     }
 
-    fun updateUiStateAndHP(characterDetails: CharacterDetails){
-        characterUiState = CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
-        characterDetails.maxHP = calculateHP(characterDetails.level, characterDetails.battleClass, characterDetails.con).toString()
+    fun updateUiStateAndHP(characterDetails: CharacterDetails) {
+        characterUiState =
+            CharacterUiState(characterDetails, isEntryValid = validateInput(characterDetails))
+        characterDetails.maxHP = calculateHP(
+            characterDetails.level,
+            characterDetails.battleClass,
+            characterDetails.con
+        ).toString()
     }
 
     suspend fun updateItem() {

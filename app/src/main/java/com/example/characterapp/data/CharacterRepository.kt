@@ -13,7 +13,7 @@ interface CharacterRepository {
     //insert character
     suspend fun insertCharacter(characterModel: CharacterModel)
 
-   //delete character
+    //delete character
     suspend fun deleteCharacter(characterModel: CharacterModel)
 
     //update character
