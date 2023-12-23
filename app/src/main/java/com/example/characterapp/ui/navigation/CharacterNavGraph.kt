@@ -20,20 +20,20 @@ import com.example.characterapp.ui.home.HomeDestination
 fun CharacterNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
-){
+) {
     NavHost(
         navController = navController,
         startDestination = HomeDestination.route,
-        modifier= modifier
-    ){
-        composable(route =  HomeDestination.route){
+        modifier = modifier
+    ) {
+        composable(route = HomeDestination.route) {
             HomeScreen(
-                navigateToCreateCharacter = {navController.navigate(CharacterAddDestination.route)},
+                navigateToCreateCharacter = { navController.navigate(CharacterAddDestination.route) },
                 navigateToCharacterDetails = { navController.navigate("${CharacterDetailsDestination.route}/${it}") }
             )
         }
 
-        composable(route = CharacterAddDestination.route){
+        composable(route = CharacterAddDestination.route) {
             CharacterAddScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() })
@@ -41,23 +41,23 @@ fun CharacterNavHost(
 
         composable(
             route = CharacterDetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(CharacterDetailsDestination.characterIdArg){
+            arguments = listOf(navArgument(CharacterDetailsDestination.characterIdArg) {
                 type = NavType.LongType
             })
-        ){
+        ) {
             CharacterDetailsScreen(
                 navigateBack = { navController.popBackStack() },
                 navigateToUpdateCharacter = { navController.navigate("${CharacterUpdateDestination.route}/${it}") },
                 onNavigateUp = { navController.navigateUp() },
-                )
+            )
         }
 
         composable(
             route = CharacterUpdateDestination.routeWithArgs,
-            arguments = listOf(navArgument(CharacterUpdateDestination.characterIdArg){
+            arguments = listOf(navArgument(CharacterUpdateDestination.characterIdArg) {
                 type = NavType.LongType
             })
-        ){
+        ) {
             CharacterUpdateScreen(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }

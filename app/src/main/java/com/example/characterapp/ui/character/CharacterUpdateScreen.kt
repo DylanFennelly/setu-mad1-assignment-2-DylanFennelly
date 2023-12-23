@@ -48,18 +48,18 @@ fun CharacterUpdateScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val raceOptions = mutableListOf<String>()
-    characterRaces.forEach{ race ->
-        raceOptions.add( stringResource(id = race))
+    characterRaces.forEach { race ->
+        raceOptions.add(stringResource(id = race))
     }
 
     val bgOptions = mutableListOf<String>()
-    characterBackgrounds.forEach{ bg ->
-        bgOptions.add( stringResource(id = bg))
+    characterBackgrounds.forEach { bg ->
+        bgOptions.add(stringResource(id = bg))
     }
 
     val classOptions = mutableListOf<String>()
-    characterClasses.forEach{ bC ->
-        classOptions.add( stringResource(id = bC))
+    characterClasses.forEach { bC ->
+        classOptions.add(stringResource(id = bC))
     }
 
     var cancelUpdateConfirmation by rememberSaveable { mutableStateOf(false) }
@@ -75,15 +75,17 @@ fun CharacterUpdateScreen(
             )
         },
         modifier = modifier
-    ){innerPadding ->
+    ) { innerPadding ->
         CharacterEntryBody(
             characterUiState = viewModel.characterUiState,
             onCharacterValueChange = viewModel::updateUiState,
             onCharacterHPValueChange = viewModel::updateUiStateAndHP,
-            onSaveClick = { coroutineScope.launch{
-                viewModel.updateItem()
-                navigateBack()
-            } },
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.updateItem()
+                    navigateBack()
+                }
+            },
             raceOptions = raceOptions,
             bgOptions = bgOptions,
             classOptions = classOptions,
@@ -94,7 +96,7 @@ fun CharacterUpdateScreen(
                 .fillMaxWidth()
         )
 
-        if(cancelUpdateConfirmation){
+        if (cancelUpdateConfirmation) {
             AlertDialog(
                 onDismissRequest = { cancelUpdateConfirmation = false },
                 title = { Text(text = stringResource(R.string.cancel_update_alert_title)) },

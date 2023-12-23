@@ -13,8 +13,8 @@ import com.example.characterapp.ui.character.CharacterUpdateViewModel
 import com.example.characterapp.ui.home.HomeViewModel
 
 /**
-* Provides Factory to create instance of ViewModel for the entire app
-*/
+ * Provides Factory to create instance of ViewModel for the entire app
+ */
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
