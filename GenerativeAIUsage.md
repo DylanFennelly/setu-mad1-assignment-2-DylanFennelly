@@ -372,3 +372,46 @@ actions = {
 
 By making this change, you ensure that the onDeleteClick lambda is actually invoked when the IconButton is clicked, triggering the desired behavior in the CharacterDetailsScreen.
 ```
+
+## Generative AI Usage 4.
+
+#### Usage Overview:
+In this instance, ChatGPT was used to change the colour of the status bar.
+
+#### Chat log:
+```
+Me:
+There is a blue bar at the top of my application where system info (time, battery, etc.) is displayed. How do I change the colour of this?
+
+
+ChatGPT:
+The blue bar at the top of your application, often referred to as the status bar, is controlled by the system and is part of the overall system UI. The appearance of the status bar is determined by the system theme and the specific device or emulator settings.
+
+In Android development with Jetpack Compose, you can customize the status bar color by using the SystemUiController in combination with the LocalContext. Here's an example of how you can change the status bar color in a Compose application:
+
+class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            // Set the status bar color in the Android theme
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.statusBarColor = Color.Blue.toArgb()
+            }
+
+            // Your Compose UI goes here
+            MyApp()
+        }
+    }
+}
+
+@Composable
+fun MyApp() {
+    LimitedCharacterText("This is a very long text that exceeds the character limit.")
+}
+
+Please note that changing the status bar color involves platform-specific code and may have different behavior on various devices. This example sets the status bar color to blue, and you can adjust the color as needed.
+```
