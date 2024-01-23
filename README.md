@@ -1,6 +1,4 @@
-# setu-mad1-assignment-2-DylanFennelly
-
-Assignment details available @ https://tutors.dev/talk/setu-mad1/topic-00-assignments/unit-2/talk-assignment-2
+## This is a clone of the repository used for Mobile App Development 1 Assignment 2
 
 # Dungeons & Dragons Character Manager
 
